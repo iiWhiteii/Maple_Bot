@@ -1,6 +1,6 @@
-import numpy as np
 import cv2 as cv 
 import pyautogui
+import numpy as np 
 
 
 while True:
@@ -20,4 +20,11 @@ while True:
         break
 
 ## Close all windows
-#cv.destroyAllWindows()
+
+
+
+
+
+
+
+

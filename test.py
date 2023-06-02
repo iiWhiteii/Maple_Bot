@@ -3,7 +3,6 @@ import pyautogui
 import numpy as np
 import os 
 import pandas as pd 
-
 from skimage.transform import resize
 from skimage.io import imread 
 from skimage import io 
