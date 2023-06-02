@@ -1,36 +1,45 @@
 
-import pyautogui
+import cv2
 import numpy as np
-import os 
-import pandas as pd 
-from skimage.transform import resize
-from skimage.io import imread 
-from skimage import io 
-import matplotlib.pyplot as plt 
 
 
 
-#frame = pyautogui.screenshot()
-#frame = np.array(frame)
-#print(frame)
+# Load the main image
+main_image = cv2.imread('main_image.PNG')
 
-#print(frame.shape) 
+# Define a list of template images
+template_images = ['Memory_Monk_1.PNG', 'Memory_Monk_2.PNG']
+
+# Convert the main image to grayscale
+main_gray = cv2.cvtColor(main_image, cv2.COLOR_BGR2GRAY)
+
+# Set a threshold for the matching score
+threshold = 0.8
+
+# Iterate over each template image
+for template_image_path in template_images:
+    # Load the template image
+    template_image = cv2.imread(template_image_path)
+    # Convert the template image to grayscale
+    template_gray = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
+    # Perform template matching
+    result = cv2.matchTemplate(main_gray, template_gray, cv2.TM_CCOEFF_NORMED)
 
 
-
-input_dir = 'C:/Users/liang/OneDrive/Desktop/Maple_Bot'
-
-
-for file in os.listdir(os.path.join(input_dir)): 
-    if file == 'red.png':
-        img = file
-
- 
+    #Trying to understand the threshold 
 
 
-img = imread(img)
-plt.imshow(img.reshape(img.shape))
-plt.show()
-img = np.array(img)
-print(img.shape)
-  
+    # Get the locations of matches above the threshold
+    locations = np.where(result >= threshold)
+    print(locations)
+    
+    # Draw a rectangle for each match
+    for loc in zip(*locations[::-1]):
+        top_left = loc
+        bottom_right = (top_left[0] + template_image.shape[1], top_left[1] + template_image.shape[0])
+        cv2.rectangle(main_image, top_left, bottom_right, (0, 255, 0), 2)
+
+# Display the result
+cv2.imshow('Matching Result', main_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

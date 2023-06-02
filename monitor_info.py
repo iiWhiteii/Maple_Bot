@@ -7,19 +7,15 @@ import os
 dir_path =  "C:/Users/liang/OneDrive/Desktop/Maple_Bot"
 sub_directories = ["Asset"]
 
+images = [file for sub_dir_idx, sub_dir in enumerate(sub_directories) for file in os.listdir(os.path.join(dir_path,sub_dir))]
+memory_monk_1 = images[0]
 
 
-
-#for sub_dir_idx, sub_dir in enumerate(sub_directories):
-    #for file in os.listdir(os.path.join(dir_path,sub_dir)): 
-
-images = [file for sub_dir_idx, sub_dir in enumerate(sub_directories) for file in os.listdir(os.path.join(dir_path,sub_dir)) ]
-print(images)
-
+threshold = 0.80
 
 # Load the main image and the template image
-main_image = cv2.imread('main_image.jpg')
-template_image = cv2.imread('npc.jpg')
+main_image = cv2.imread('main_image.PNG')
+template_image = cv2.imread('Memory_Monk_1.PNG')
 
 # Convert both images to opencv format
 main_gray = cv2.cvtColor(main_image, cv2.COLOR_BGR2GRAY)
@@ -27,6 +23,9 @@ template_gray = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
 
 # Perform template matching
 result = cv2.matchTemplate(main_gray, template_gray, cv2.TM_CCOEFF_NORMED)
+print(result[1])
+
+#print(np.where(result >= 0.80))
 
 # Get the location of the best match
 min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
