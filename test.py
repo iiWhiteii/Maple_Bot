@@ -5,10 +5,10 @@ import numpy as np
 
 
 # Load the main image
-main_image = cv2.imread('main_image_3.PNG')
+main_image = cv2.imread('main_image_5.PNG')
 
 # Define a list of template images
-template_images = ['ice_drake_1.PNG', 'ice_drake_2.PNG','ice_drake_4.PNG','ice_drake_5.PNG','ice_drake_6.PNG']
+template_images = ['Blue Mushroom_1.PNG', 'Blue Mushroom_2.PNG','Blue Mushroom_3.PNG','Crying Mushroom_1.PNG','Crying Mushroom_2.PNG','Crying Mushroom_3.PNG','Blue Mushroom_4.PNG','Crying Mushroom_4.PNG','Blue Mushroom_5.PNG']
 
 # Convert the main image to grayscale
 main_gray = cv2.cvtColor(main_image, cv2.COLOR_BGR2GRAY)
