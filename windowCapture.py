@@ -24,9 +24,10 @@ class window_capture:
         'creating device context obj allows us manipulate various operation like coordinate location'
         dcObj = win32ui.CreateDCFromHandle(wDC)
 
+        'creating a compatible device context tells youre creating oringal dc obj with same attribute and setting'
+        cDC = dcObj.CreateCompatibleDC() 
 
-        #[white]}
-        cDC = dcObj.CreateCompatibleDC()
+
         dataBitMap = win32ui.CreateBitmap()
         dataBitMap.CreateCompatibleBitmap(dcObj, self.w, self.h)
         cDC.SelectObject(dataBitMap)

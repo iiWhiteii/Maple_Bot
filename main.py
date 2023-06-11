@@ -31,7 +31,6 @@ while True:
         cv.destroyAllWindows()
         break    
 
-
 window_capture()
 
 
