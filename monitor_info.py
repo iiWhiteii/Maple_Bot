@@ -14,8 +14,8 @@ memory_monk_1 = images[0]
 threshold = 0.80
 
 # Load the main image and the template image
-main_image = cv2.imread('main_image_3.PNG')
-template_image = cv2.imread('ice_drake_1.PNG')
+main_image = cv2.imread('main_image.PNG')
+template_image = cv2.imread('Memory_Monk_2.PNG')
 
 # Convert both images to opencv format
 main_gray = cv2.cvtColor(main_image, cv2.COLOR_BGR2GRAY)
@@ -23,9 +23,8 @@ template_gray = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
 
 # Perform template matching
 result = cv2.matchTemplate(main_gray, template_gray, cv2.TM_CCOEFF_NORMED)
-print(result[1])
 
-#print(np.where(result >= 0.80))
+
 
 # Get the location of the best match
 min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
