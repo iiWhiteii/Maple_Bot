@@ -10,18 +10,19 @@ import numpy as np
 # This is an instance of the window_capture class
 wincap = window_capture('Maplestory')
 
-from template_matching import image_matching
+from template_matching import ImageMatching
 
+
+template_images = ['Memory_Monk_1.PNG','Memory_Monk_3.PNG','ME.PNG','ME2.PNG','ME3.PNG','ME4.PNG']
 
 
 
 
 loop_time = time()
 while True:
-    # Capture the frame
-    frame = wincap.screenshot() 
+    frame = wincap.screenshot()
     cv.imwrite('main_image.png',frame)
-    image_match = image_matching('main_image.png','Memory_Monk_2.PNG')
+    image_match = ImageMatching('main_image.png', template_images, 0.45)
     image_match.template_matching()
 
 

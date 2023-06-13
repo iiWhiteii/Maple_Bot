@@ -14,8 +14,10 @@ class window_capture:
         self.hwnd = win32gui.FindWindow(None, window_name)
         if not self.hwnd:
             raise Exception('Window Not found {}'.format(window_name))
-        self.w = 1920
-        self.h = 1080 
+       
+        rect = win32gui.GetClientRect(self.hwnd)
+        self.w = rect[2]
+        self.h = rect[3]
         
     #Method
     def screenshot(self): 
