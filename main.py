@@ -26,6 +26,9 @@ while True:
     image_match.template_matching()
 
 
+    
+
+
     # Calculate the frame rate
     print('FPS {}'.format(1 / (time() - loop_time)))
     loop_time = time()
