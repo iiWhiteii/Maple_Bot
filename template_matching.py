@@ -22,7 +22,11 @@ class ImageMatching():
             # Convert the template image to grayscale
             template_gray = cv.cvtColor(template_image, cv.COLOR_BGR2GRAY)
 
-            # Perform template matching
+            # Perform template matching  
+
+            #TM-CCOEFF_NORMALED amazing 
+
+
             result = cv.matchTemplate(main_gray, template_gray, cv.TM_CCOEFF_NORMED)
             # Find all matches above the threshold
             loc = np.where(result >= self.threshold)
