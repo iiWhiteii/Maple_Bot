@@ -20,9 +20,11 @@ from template_matching import ImageMatching
 template_images = ['Memory_Monk_1.PNG','Memory_Monk_2.PNG','In_Game_Name.PNG','eye_of_time_looking_left.PNG','eye_of_time_looking_right.PNG']
 
 loop_time = time()
+
+
 while True:
     frame = wincap.screenshot()
-    cv.imwrite('main_image.png',frame)
+    main_image = cv.imwrite('main_image.png',frame)
     image_match = ImageMatching('main_image.png', template_images, 0.70)
     image_match.template_matching()
 

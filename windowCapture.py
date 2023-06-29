@@ -1,6 +1,5 @@
 import numpy as np 
 import win32gui, win32ui, win32con
-import cv2 as cv 
 
 class window_capture: 
     #properties
@@ -20,7 +19,6 @@ class window_capture:
         if window_name is None:
             self.hwnd = win32gui.GetDesktopWindow()
         else: 
-
             '''window handle : win32gui.FindWindow(None, window_name) allows us to interact and manuipate the identified window
              interact and manuipate allows screenshots, sending input events, etc'''
             self.hwnd = win32gui.FindWindow(None, window_name)
@@ -84,7 +82,7 @@ class window_capture:
         return img  
     
 
-
+    ### For now these two code in the bottom not important
 
     @staticmethod
     def list_window_names():
@@ -92,9 +90,6 @@ class window_capture:
             if win32gui.IsWindowVisible(hwnd):
                 print(hex(hwnd), win32gui.GetWindowText(hwnd))
         win32gui.EnumWindows(winEnumHandler, None)
-
-
-
 
 
     def get_screen_position(self,pos): 
