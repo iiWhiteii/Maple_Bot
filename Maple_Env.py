@@ -1,62 +1,38 @@
-#Obersation 
-
-"""  Observation:
-        Type: Dict "MapleWrapper" : box(4)
-        Num     Observation               Min                     Max
-        1       Player X1                 0                       825
-        2       Mob X1 (1)                0                       825
-        3       Player Facing Direction   0                       1
-        4       Attacked                  0                       1          """
-
-
-
-
-#Actions: 
-
-    # Walk Left 
-    # Walk Right 
-    # Jump 
-    # Attack 
-
-
-
-
 import gym
-import time
-from gym import spaces
-#from maplewrapper import wrapper
-import numpy as np
-#import pydirectinput
-import cv2
+from gym import error, spaces, utils
+from gym.utils import seeding
 
+class BasicEnv(gym.Env):
+    metadata = {'render.modes': ['human']}
 
+    def __init__(self):
+        # There are two actions, first will get reward of 1, second reward of -1. 
+        self.action_space = spaces.Discrete(5)
+        self.observation_space = spaces.Discrete(2)
 
+    def step(self, action):
 
+        # if we took an action, we were in state 1
+        state = 1
+    
+        if action == 2:
+            reward = 1
+        else:
+            reward = -1
+            
+        # regardless of the action, game is done after a single step
+        done = True
 
-class env(gym.Env):
+        info = {}
 
-    def __init__(self,w):
+        return state, reward, done, info
 
+    def reset(self):
+        state = 0
+        return state
+  
+    def render(self, mode='human'):
+        pass
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def close(self):
+        pass
