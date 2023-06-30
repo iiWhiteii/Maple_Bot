@@ -17,21 +17,22 @@ wincap = window_capture('Maplestory')
 from template_matching import ImageMatching
 
 
-template_images = ['Memory_Monk_1.PNG','Memory_Monk_2.PNG','In_Game_Name.PNG','eye_of_time_looking_left.PNG','eye_of_time_looking_right.PNG']
+template_images = ['ice_drake_6.PNG','ice_drake_1.PNG','ice_drake_2.PNG','ice_drake_6.PNG']
 
 loop_time = time()
+
 
 
 while True:
     frame = wincap.screenshot()
     main_image = cv.imwrite('main_image.png',frame)
-    image_match = ImageMatching('main_image.png', template_images, 0.70)
+    image_match = ImageMatching('main_image.png', template_images, 0.63)
     image_match.template_matching()
 
     #cv.imshow('Computer Vision', frame)
 
     # Calculate the frame rate
-    print('FPS {}'.format(1 / (time() - loop_time)))
+    #print('FPS {}'.format(1 / (time() - loop_time)))
     loop_time = time()
 
     # Break the loop when 'q' is pressed
