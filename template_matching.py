@@ -31,7 +31,7 @@ class ImageMatching():
                 bottom_right = (pt[0] + template_image.shape[1], pt[1] + template_image.shape[0])
                 cv.rectangle(self.main_image, pt, bottom_right, (0, 255, 0), 2)
 
-                cv.putText(self.main_image, "Ice Drake", (pt[0], pt[1] - 10), cv.FONT_HERSHEY_SIMPLEX, 0.4, (0, 250, 0), 2)
+                cv.putText(self.main_image, "Mushmom", (pt[0], pt[1] - 10), cv.FONT_HERSHEY_SIMPLEX, 0.4, (0, 250, 0), 2)
 
         # Display the resulting frame
         cv.imshow('Computer Vision', self.main_image)
