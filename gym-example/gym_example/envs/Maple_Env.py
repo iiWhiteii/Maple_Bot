@@ -5,31 +5,58 @@ from gym.utils import seeding
 class BasicEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self):
+    def __init__(self): 
 
-        '''
-            Observation_space(State_space):  
-            0 Character_Pos
-            1 Num_MOD_Pos
-            2 Skills CC
-        '''  
 
-        ''' 
-            Action_space:  
-            0 Right Movement: Move the character to the right.
-            1 Left Movement: Move the character to the left.
-            2 Skill 1: Activate skill 1 
-            3 Skill 2: Activate skill 2
-            4 Skill 3: Activate skill 3
-            5 Skill 4: Activate skill 4
-            6 Skill 5: Activate skill 5
-            7 Jump: Make the character jump
-        '''
+
+
+
+
+
+        #Observation(state) 
+
+        #1 Memory_Monk_Facing_Right
+        #2 Memory_Monk_Facing_Left
+        #3 Memory_Monk_Death_Right
+        #4 Memory_Monk_Death_Left 
+        #5 Death By worldreaver 
+
+        #6 Skill illusion 
+        #7 Raging Blow
+        #8 Puncture
+        #9 Flash Blade
+        
+
+
+        self.observation_space = spaces.Dict({ 
+            
+            "Flash Blade" : spaces.Discrete(2), 
+            "Puncture" : spaces.Discrete(1), 
+            "Skill illusion" : spaces.Discrete(2),
+            "Raging Blow" : spaces.Discrete(1), 
+
+            "Memory_Monk_Facing_Right" : spaces.Discrete(51),
+            "Memory_Monk_Facing_Left" : spaces.Discrete(51), 
+            "Memory_Monk_Death_Right" : spaces.Discrete(20),
+            "Memory_Monk_Death_Left" : spaces.Discrete(20), 
+            "Death By World reaver" : spaces.Discrete(20)
+
+            }
+                )
+
+
+        # #There are essentially 9 actions 
+        # Right, Left, Up, Down, Jump(Alt), 1(Raging Blow), 2(Skill illusion), Q(Puncture), W(Flash Blade) 
+        self.action_space = spaces.Discrete(9)
+
+
+
+
+
+
+
 
         
-        
-        self.observation_space = spaces.Discrete(3)
-        self.action_space = spaces.Discrete(7)
 
     def step(self, action):
 
@@ -47,6 +74,11 @@ class BasicEnv(gym.Env):
         info = {}
 
         return obs, reward, done, info
+    
+
+
+
+    
 
     def reset(self):
         obs = 'state'

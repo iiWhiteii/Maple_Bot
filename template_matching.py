@@ -4,6 +4,7 @@
 import cv2 as cv 
 import numpy as np 
 import os 
+import time
 
 
 
@@ -14,15 +15,7 @@ class ImageMatching():
         self.main_image = cv.imread(screenshot_obj)
 
 
-
-
-
-
-
-
     #overthinking it continue tmr. 
-        
-
     def template_matching(self,template_images):
 
 
@@ -31,6 +24,13 @@ class ImageMatching():
         
         empty_dictionary = {}
         for img in template_images: 
+
+           
+
+
+            name = (os.path.basename(img))
+
+
             # Convert the main image to grayscale
             main_gray = cv.cvtColor(self.main_image, cv.COLOR_BGR2GRAY)
             template_image = cv.imread(img) 
@@ -55,23 +55,25 @@ class ImageMatching():
                 cv.rectangle(self.main_image, pt, bottom_right, (0, 255, 0), 2)
                 cv.putText(self.main_image, "Skill", (pt[0], pt[1] - 10), cv.FONT_HERSHEY_SIMPLEX, 0.4, (0, 250, 0), 2)  
                 count +=1 
-                empty_dictionary[img] = count 
-            print(empty_dictionary)
+                empty_dictionary[name] = count  
 
 
-                
-                
 
                 
-                
-                
+            print(empty_dictionary) 
 
+            
 
-        # Display the resulting frame
+                
+            # Display the resulting frame
         cv.imshow('Computer Vision', self.main_image)
 
-        # Remove the main_image.png file
-        os.remove('main_image.png')
+        # Remove the main_image.png file 
+
+        time.sleep(0.001)
+        os.remove('main_image.png') 
+
+        return empty_dictionary
 
 
 

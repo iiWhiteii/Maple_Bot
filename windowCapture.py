@@ -84,7 +84,7 @@ class window_capture:
 
     ### For now these two code in the bottom not important
 
-    @staticmethod
+    '''@staticmethod
     def list_window_names():
         def winEnumHandler(hwnd, ctx):
             if win32gui.IsWindowVisible(hwnd):
@@ -93,5 +93,5 @@ class window_capture:
 
 
     def get_screen_position(self,pos): 
-        return (pos[0] + self.offset_x, pos[1] + self.offset_y)
+        return (pos[0] + self.offset_x, pos[1] + self.offset_y)'''
     

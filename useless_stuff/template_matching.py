@@ -29,15 +29,6 @@ class ImageMatching():
 
 
 
-        
-
-
-
-
-
-
-
-
 
         # Convert the main image to grayscale
         main_gray = cv.cvtColor(self.main_image, cv.COLOR_BGR2GRAY)
