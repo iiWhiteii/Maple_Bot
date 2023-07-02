@@ -15,7 +15,7 @@ class MapleEnv(gym.Env):
             "Memory_Monk_Facing_Left": spaces.Discrete(51),
             "Memory_Monk_Death_Right": spaces.Discrete(20),
             "Memory_Monk_Death_Left": spaces.Discrete(20),
-            "Death By World Reaver": spaces.Discrete(30)
+            "Death By World Reaver": spaces.Discrete(50)
         })
 
         self.action_space = spaces.Discrete(9)
