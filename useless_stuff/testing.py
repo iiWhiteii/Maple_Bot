@@ -1,7 +1,7 @@
-import gym_example 
-import gym 
+#import gym_example 
+#import gym 
 
 
-env = gym.make('gym_examples/MapleEnv-v0')
+#env = gym.make('gym_examples/MapleEnv-v0')
 
-print(env.observation_space)
+#print(env.observation_space)

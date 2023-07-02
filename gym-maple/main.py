@@ -9,7 +9,7 @@ import numpy as np
 
 
 import gym 
-import gym_example
+import gym_maple
 
 
 
@@ -37,8 +37,11 @@ template_images = template_images + [img for img in glob.glob(r'C:\Users\liang\O
 
 
 #Creating an instance of gym Environment 
-env = gym.make('gym_examples/MapleEnv-v0')
+env = gym.make('gym_maple/MapleEnv-v0')
 print(env.observation_space) 
+
+
+env.reset()
 
 
 
@@ -57,7 +60,7 @@ while True:
     dictionary = image_match.template_matching(template_images)
     
     
-    '''step = env.step(dictionary)'''
+    step = env.step(dictionary)
     
     # Calculate FPS
     ##print('FPS {}'.format(1 / (time() - loop_time)))
