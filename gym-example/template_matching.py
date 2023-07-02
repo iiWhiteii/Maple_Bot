@@ -65,7 +65,7 @@ class ImageMatching():
             
 
                 
-            # Display the resulting frame
+        # Display the resulting frame
         cv.imshow('Computer Vision', self.main_image)
 
         # Remove the main_image.png file 

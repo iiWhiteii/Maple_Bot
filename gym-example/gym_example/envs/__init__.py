@@ -1,2 +1,2 @@
 
-from gym_example.envs.Maple_Env import BasicEnv
+from gym_example.envs.Maple_Env import MapleEnv

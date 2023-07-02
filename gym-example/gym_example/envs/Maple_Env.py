@@ -2,7 +2,7 @@ import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
 
-class BasicEnv(gym.Env):
+class MapleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
     def __init__(self): 
@@ -34,44 +34,49 @@ class BasicEnv(gym.Env):
             "Puncture" : spaces.Discrete(1), 
             "Skill illusion" : spaces.Discrete(2),
             "Raging Blow" : spaces.Discrete(1), 
+            "World Reaver" : spaces.Discrete(2),
 
             "Memory_Monk_Facing_Right" : spaces.Discrete(51),
             "Memory_Monk_Facing_Left" : spaces.Discrete(51), 
             "Memory_Monk_Death_Right" : spaces.Discrete(20),
             "Memory_Monk_Death_Left" : spaces.Discrete(20), 
-            "Death By World reaver" : spaces.Discrete(20)
+            "Death By World Reaver" : spaces.Discrete(20)
 
             }
                 )
 
 
         # #There are essentially 9 actions 
-        # Right, Left, Up, Down, Jump(Alt), 1(Raging Blow), 2(Skill illusion), Q(Puncture), W(Flash Blade) 
+        # Right, Left, Up, Down, Jump(Alt), 1(Raging Blow),  
+        # 2(Skill illusion), Q(Puncture), W(Flash Blade)
+        # Delete(World Reaver) 
         self.action_space = spaces.Discrete(9)
 
 
 
 
+#Passing in computer vision parameter into here
 
 
 
+    def step(self,info_capture):
 
-        
+        self.info_capture = info_capture 
 
-    def step(self, action):
+        if 'Memory_Monk_Death_Right' in obs: 
+            reward = reward * 'quantity computer vision spoting this'  
 
-        # if we took an action, we were in state 1
-        obs = ['Character_Pos','Num_MOD_Pos','Skills CC']
-    
-        if action == 2:
-            reward = 1
-        else:
-            reward = -1
-            
-        # regardless of the action, game is done after a single step
-        done = True
+        if 'Memory_Monk_Death_Left' in obs: 
+            reward = reward * 'quantity computer vision spoting this '
 
-        info = {}
+        if 'Death By World Reaver' in obs: 
+            reward = reward * 'quantity computer vision spotting this' + bonus
+
+
+        Observation = []
+
+
+
 
         return obs, reward, done, info
     
