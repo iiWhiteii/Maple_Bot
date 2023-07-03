@@ -24,30 +24,17 @@ class ImageMatching():
         
         empty_dictionary = {}
         for img in template_images: 
-
-           
-
-
             name = (os.path.basename(img))
-
-
             # Convert the main image to grayscale
             main_gray = cv.cvtColor(self.main_image, cv.COLOR_BGR2GRAY)
             template_image = cv.imread(img) 
-
-            
-
             # Convert the template image to grayscale
             template_gray = cv.cvtColor(template_image, cv.COLOR_BGR2GRAY) 
-
             #Matching
             result = cv.matchTemplate(main_gray, template_gray, cv.TM_CCOEFF_NORMED)  
-
             # Find all matches above the threshold
             loc = np.where(result >= self.threshold)   
-            
-            
-           
+
             #empty_dictionary = {}
             count = 0 
             for pt in list(zip(*loc[::-1])):
