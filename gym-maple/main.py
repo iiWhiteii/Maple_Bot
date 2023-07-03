@@ -54,7 +54,7 @@ while True:
     frame = wincap.screenshot()
     main_image = cv.imwrite('main_image.png',frame) # create it
     #print(main_image)
-    image_match = ImageMatching('main_image.png', 0.72)
+    image_match = ImageMatching('main_image.png', 0.74)
     
     #these dictionary value will be representing as info capture by CV
     dictionary = image_match.template_matching(template_images)
