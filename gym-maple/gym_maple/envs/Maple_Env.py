@@ -21,15 +21,45 @@ class MapleEnv(gym.Env):
         self.action_space = spaces.Discrete(9)
 
     def step(self, info_capture):
-
         self.info_capture = info_capture
+        print(self.info_capture)
+        obs = {
+        "Flash Blade": 0,
+        "Puncture": 0,
+        "Skill illusion": 0,
+        "Raging Blow": 0,
+        "World Reaver": 0,
+        "Memory_Monk_Facing_Right": 0,
+        "Memory_Monk_Facing_Left": 0,
+        "Memory_Monk_Death_Right": 0,
+        "Memory_Monk_Death_Left": 0,
+        "Death By World Reaver": 0
+                }
 
-        if self.info_capture['Sword Illusion.PNG'] == 0:
-            print('hi')
+        #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
+        #WARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'dict'>
 
-        obs = {"observation": 1, "reward": 2, "done": False, "info": {}}
-        return obs
+        reward = {1,2,3,4} 
+
+
+
+        return obs, {}, reward, {}
+    
+
 
     def reset(self):
-        obs = {"observation": 1, "reward": 2, "done": False, "info": {}}
-        return obs
+        obs = {
+        "Flash Blade": 0,
+        "Puncture": 0,
+        "Skill illusion": 0,
+        "Raging Blow": 0,
+        "World Reaver": 0,
+        "Memory_Monk_Facing_Right": 0,
+        "Memory_Monk_Facing_Left": 0,
+        "Memory_Monk_Death_Right": 0,
+        "Memory_Monk_Death_Left": 0,
+        "Death By World Reaver": 0
+                }
+
+
+        return obs, {}
