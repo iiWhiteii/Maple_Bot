@@ -58,9 +58,13 @@ while True:
     
     #these dictionary value will be representing as info capture by CV
     dictionary = image_match.template_matching(template_images)
+
+
+    print(dictionary['Sword Illusion.PNG'], dictionary['Memory_Monk_Death_L.PNG'],dictionary['Memory_Monk_Death_R.PNG'], time())
+
     
     
-    step = env.step(dictionary)
+    #step = env.step(dictionary)
     
     # Calculate FPS
     ##print('FPS {}'.format(1 / (time() - loop_time)))
