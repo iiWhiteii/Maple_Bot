@@ -1,5 +1,6 @@
 import gym
 from gym import spaces
+from time import time
 
 class MapleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
@@ -22,7 +23,29 @@ class MapleEnv(gym.Env):
 
     def step(self, info_capture):
         self.info_capture = info_capture
-        print(self.info_capture)
+
+        '''There are a lot of limitation and improvement '''
+        if self.info_capture['Sword Illusion2.PNG'] == 1:
+            Sword_Illusion = True
+            if Sword_Illusion & self.info_capture['Multiple Kill 3.PNG'] == 1:  
+                reward = 3
+                print(reward)
+            if Sword_Illusion & self.info_capture['Multiple Kill 4.PNG'] == 1:
+                reward = 4
+                print(reward) 
+            if Sword_Illusion & self.info_capture['Multiple Kill 5.PNG'] == 1:
+                reward = 5 
+                print(reward)
+            if Sword_Illusion & self.info_capture['Multiple Kill 6.PNG'] == 1:
+                reward = 6
+                print(reward)
+            if Sword_Illusion & self.info_capture['Multiple Kill 7.PNG'] == 1:
+                reward = 7
+                print(reward)
+            if Sword_Illusion & self.info_capture['Multiple Kill 8.PNG'] == 1:
+                reward = 8
+                print(reward)
+            
         obs = {
         "Flash Blade": 0,
         "Puncture": 0,
@@ -39,7 +62,7 @@ class MapleEnv(gym.Env):
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
         #WARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'dict'>
 
-        reward = {1,2,3,4} 
+        #reward = {1,2,3,4}
 
 
 
