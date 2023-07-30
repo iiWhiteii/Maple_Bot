@@ -62,7 +62,7 @@ class MapleEnv(gym.Env):
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
         #WARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'dict'>
 
-        #reward = {1,2,3,4}
+        reward = {1,2,3,4}
 
 
 

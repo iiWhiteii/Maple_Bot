@@ -71,7 +71,7 @@ class ImageMatching():
 
         # Remove the main_image.png file 
 
-        time.sleep(0.001)
+        time.sleep(0.00001)
         os.remove('main_image.png') 
 
         return empty_dictionary
