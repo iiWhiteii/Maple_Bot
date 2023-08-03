@@ -4,7 +4,8 @@
 import cv2 as cv 
 import numpy as np 
 import os 
-import time
+import time 
+from collections import deque
 
 
 
@@ -14,20 +15,13 @@ class ImageMatching():
         self.threshold = threshold
         self.main_image = cv.imread(screenshot_obj)
 
-
     #overthinking it continue tmr. 
     def template_matching(self,template_images):
-
-
-
-
-        
-        empty_dictionary = {}      
-
-
-
+        empty_dictionary = {} 
+        position_dictionary = {}    # Only want position for tomeless and all the npc position. Then we calculate the distance formula from this    
+        replay_buffer = deque(maxlen=3) 
+        replay_buffer_me  = deque(maxlen=3) 
         for img in template_images: 
-
             name = (os.path.basename(img))
             # Convert the main image to grayscale
             main_gray = cv.cvtColor(self.main_image, cv.COLOR_BGR2GRAY)
@@ -39,16 +33,8 @@ class ImageMatching():
             # Find all matches above the threshold
             loc = np.where(result >= self.threshold)   
             #empty_dictionary = {}   
-
-
             if img not in template_image: 
-
                 empty_dictionary[name] = 0 
-
-
-
-
-
 
             count = 0 
             for pt in list(zip(*loc[::-1])):
@@ -56,16 +42,25 @@ class ImageMatching():
                 cv.rectangle(self.main_image, pt, bottom_right, (0, 255, 0), 2)
                 cv.putText(self.main_image, "Skill", (pt[0], pt[1] - 10), cv.FONT_HERSHEY_SIMPLEX, 0.4, (0, 250, 0), 2)  
                 count +=1 
-                empty_dictionary[name] = count
-
-
-
+                empty_dictionary[name] = count 
                 
-            #print(empty_dictionary) 
+                #Asset\Hero_Skills\player_username.PNG
+                if name == 'player_username.PNG':
+                    position_dictionary[name] = [pt[0],pt[1]] 
+                    replay_buffer_me.append(position_dictionary[name])
 
-            
-
+                if name == 'Memory_Monk_L.PNG':
+                    position_dictionary[name] = [pt[0],pt[1]] 
+                    replay_buffer.append(position_dictionary[name])
                 
+
+
+
+                print(replay_buffer_me,replay_buffer)
+
+                print(replay_buffer-replay_buffer_me)
+                    
+
         # Display the resulting frame
         cv.imshow('Computer Vision', self.main_image)
 

@@ -19,32 +19,29 @@ class MapleEnv(gym.Env):
             "Death By World Reaver": spaces.Discrete(50)
         })
 
-        self.action_space = spaces.Discrete(9)
+        self.action_space = spaces.Discrete(9)  
 
+
+
+    reward = 0
     def step(self, info_capture):
         self.info_capture = info_capture
 
         '''There are a lot of limitation and improvement '''
         if self.info_capture['Sword Illusion2.PNG'] == 1:
             Sword_Illusion = True
-            if Sword_Illusion & self.info_capture['Multiple Kill 3.PNG'] == 1:  
-                reward = 3
-                print(reward)
-            if Sword_Illusion & self.info_capture['Multiple Kill 4.PNG'] == 1:
-                reward = 4
-                print(reward) 
-            if Sword_Illusion & self.info_capture['Multiple Kill 5.PNG'] == 1:
-                reward = 5 
-                print(reward)
-            if Sword_Illusion & self.info_capture['Multiple Kill 6.PNG'] == 1:
-                reward = 6
-                print(reward)
             if Sword_Illusion & self.info_capture['Multiple Kill 7.PNG'] == 1:
                 reward = 7
                 print(reward)
             if Sword_Illusion & self.info_capture['Multiple Kill 8.PNG'] == 1:
                 reward = 8
-                print(reward)
+                print(reward) 
+
+        #if self.info_capture
+
+
+
+
             
         obs = {
         "Flash Blade": 0,
@@ -56,19 +53,18 @@ class MapleEnv(gym.Env):
         "Memory_Monk_Facing_Left": 0,
         "Memory_Monk_Death_Right": 0,
         "Memory_Monk_Death_Left": 0,
-        "Death By World Reaver": 0
+        "Death By World Reaver": self.info_capture['WorldReaver.PNG']
                 }
 
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
         #WARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'dict'>
 
-        reward = {1,2,3,4}
+        reward = {0}
 
 
 
         return obs, {}, reward, {}
     
-
 
     def reset(self):
         obs = {
