@@ -6,6 +6,7 @@ import numpy as np
 import os 
 import time 
 from collections import deque
+import math
 
 
 
@@ -49,14 +50,33 @@ class ImageMatching():
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer_me.append(position_dictionary[name])
 
-                if name == 'Memory_Monk_L.PNG':
+                if name == 'npc.PNG':
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer.append(position_dictionary[name])
                 
 
+                magnitudes = []
+
+                print(replay_buffer_me,replay_buffer)  
+                for vector1 in replay_buffer_me:
+                    for vector2 in replay_buffer:
+                        magnitude = math.sqrt((vector2[0] - vector1[0]) ** 2 + (vector2[1] - vector1[1]) ** 2)
+                        magnitudes.append(magnitude)
+
+                print("Magnitudes:", magnitudes)
+
+                
+
+                    
 
 
-                print(replay_buffer_me,replay_buffer)
+                #vector1 = deque1[0]
+                #vectors2 = deque2)
+
+                #magnitudes = [math.sqrt((vector2[0] - vector1[0]) ** 2 + (vector2[1] - vector1[1]) ** 2) for vector2 in vectors2]
+
+
+                #print( np.array(replay_buffer_me) - np.array(replay_buffer) )
 
                 #print(replay_buffer-replay_buffer_me)
                     

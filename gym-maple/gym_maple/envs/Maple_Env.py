@@ -8,15 +8,12 @@ class MapleEnv(gym.Env):
     def __init__(self):
         self.observation_space = spaces.Dict({
             "Flash Blade": spaces.Discrete(2),
-            "Puncture": spaces.Discrete(1),
             "Skill illusion": spaces.Discrete(2),
-            "Raging Blow": spaces.Discrete(1),
-            "World Reaver": spaces.Discrete(2),
             "Memory_Monk_Facing_Right": spaces.Discrete(51),
             "Memory_Monk_Facing_Left": spaces.Discrete(51),
             "Memory_Monk_Death_Right": spaces.Discrete(20),
-            "Memory_Monk_Death_Left": spaces.Discrete(20),
-            "Death By World Reaver": spaces.Discrete(50)
+            "Memory_Monk_Death_Left": spaces.Discrete(20)
+            
         })
 
         self.action_space = spaces.Discrete(9)  
@@ -44,16 +41,13 @@ class MapleEnv(gym.Env):
 
             
         obs = {
-        "Flash Blade": 0,
-        "Puncture": 0,
-        "Skill illusion": 0,
-        "Raging Blow": 0,
-        "World Reaver": 0,
-        "Memory_Monk_Facing_Right": 0,
-        "Memory_Monk_Facing_Left": 0,
-        "Memory_Monk_Death_Right": 0,
-        "Memory_Monk_Death_Left": 0,
-        "Death By World Reaver": self.info_capture['WorldReaver.PNG']
+        "Flash Blade": self.info_capture['Sword Illusion2.PNG'],
+        "Skill illusion": self.info_capture['Sword Illusion2.PNG'],
+        "Memory_Monk_Facing_Right": self.info_capture['Memory_Monk_R.PNG'],
+        "Memory_Monk_Facing_Left": self.info_capture['Memory_Monk_L.PNG'],
+        "Memory_Monk_Death_Right": self.info_capture['Memory_Monk_Death_R.PNG'],
+        "Memory_Monk_Death_Left": self.info_capture['Memory_Monk_Death_L.PNG']
+
                 }
 
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
@@ -67,17 +61,14 @@ class MapleEnv(gym.Env):
     
 
     def reset(self):
+
         obs = {
         "Flash Blade": 0,
-        "Puncture": 0,
         "Skill illusion": 0,
-        "Raging Blow": 0,
-        "World Reaver": 0,
         "Memory_Monk_Facing_Right": 0,
         "Memory_Monk_Facing_Left": 0,
         "Memory_Monk_Death_Right": 0,
-        "Memory_Monk_Death_Left": 0,
-        "Death By World Reaver": 0
+        "Memory_Monk_Death_Left": 0
                 }
 
 
