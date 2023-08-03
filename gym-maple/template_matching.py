@@ -58,7 +58,7 @@ class ImageMatching():
 
                 print(replay_buffer_me,replay_buffer)
 
-                print(replay_buffer-replay_buffer_me)
+                #print(replay_buffer-replay_buffer_me)
                     
 
         # Display the resulting frame
@@ -69,7 +69,7 @@ class ImageMatching():
         time.sleep(0.00001)
         os.remove('main_image.png') 
 
-        return empty_dictionary
+        return empty_dictionary  # also returning an dictionary for 
 
 
 

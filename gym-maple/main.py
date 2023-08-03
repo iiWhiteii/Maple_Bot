@@ -5,6 +5,7 @@ from windowCapture import window_capture
 import numpy as np
 import gym 
 import gym_maple
+import tensorflow as tf
 
 #This is an instance of the window_capture class
 wincap = window_capture('Maplestory')
@@ -21,21 +22,19 @@ print(env.observation_space)
 
 env.reset()
 
-
-
 loop_time = time()
 while True:
     frame = wincap.screenshot()
     main_image = cv.imwrite('main_image.png',frame) # create it
     #print(main_image)
-    image_match = ImageMatching('main_image.png', 0.74)
-    
+    image_match = ImageMatching('main_image.png', 0.74)    
     #these dictionary value will be representing as info capture by CV
     dictionary = image_match.template_matching(template_images)
- 
+
     step = env.step(dictionary)
     
-    # Calculate FPS
+
+    #Calculate FPS
     ##print('FPS {}'.format(1 / (time() - loop_time)))
     loop_time = time()
 

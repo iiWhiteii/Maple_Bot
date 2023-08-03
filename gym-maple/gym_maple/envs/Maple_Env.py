@@ -24,7 +24,7 @@ class MapleEnv(gym.Env):
 
 
     reward = 0
-    def step(self, info_capture):
+    def step(self, info_capture): # passing in additonal parameter 
         self.info_capture = info_capture
 
         '''There are a lot of limitation and improvement '''
@@ -37,7 +37,7 @@ class MapleEnv(gym.Env):
                 reward = 8
                 print(reward) 
 
-        #if self.info_capture
+        #if self.info_capture['']
 
 
 
