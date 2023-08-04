@@ -1,6 +1,3 @@
-
-
-
 import cv2 as cv 
 import numpy as np 
 import os 
@@ -20,8 +17,8 @@ class ImageMatching():
     def template_matching(self,template_images):
         empty_dictionary = {} 
         position_dictionary = {}    # Only want position for tomeless and all the npc position. Then we calculate the distance formula from this    
-        replay_buffer = deque(maxlen=3) 
-        replay_buffer_me  = deque(maxlen=3) 
+        replay_buffer = deque(maxlen=2000) 
+        replay_buffer_me  = deque(maxlen=2000) 
         for img in template_images: 
             name = (os.path.basename(img))
             # Convert the main image to grayscale
@@ -45,12 +42,16 @@ class ImageMatching():
                 count +=1 
                 empty_dictionary[name] = count 
                 
+
+
+                #Asset\Temple Of Time\Memory_Monk_R.PNG
+
                 #Asset\Hero_Skills\player_username.PNG
                 if name == 'player_username.PNG':
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer_me.append(position_dictionary[name])
 
-                if name == 'npc.PNG':
+                if name == 'Memory_Monk_L.PNG':
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer.append(position_dictionary[name])
                 
@@ -62,25 +63,8 @@ class ImageMatching():
                     for vector2 in replay_buffer:
                         magnitude = math.sqrt((vector2[0] - vector1[0]) ** 2 + (vector2[1] - vector1[1]) ** 2)
                         magnitudes.append(magnitude)
-
                 print("Magnitudes:", magnitudes)
-
-                
-
                     
-
-
-                #vector1 = deque1[0]
-                #vectors2 = deque2)
-
-                #magnitudes = [math.sqrt((vector2[0] - vector1[0]) ** 2 + (vector2[1] - vector1[1]) ** 2) for vector2 in vectors2]
-
-
-                #print( np.array(replay_buffer_me) - np.array(replay_buffer) )
-
-                #print(replay_buffer-replay_buffer_me)
-                    
-
         # Display the resulting frame
         cv.imshow('Computer Vision', self.main_image)
 
@@ -89,7 +73,7 @@ class ImageMatching():
         time.sleep(0.00001)
         os.remove('main_image.png') 
 
-        return empty_dictionary  # also returning an dictionary for 
+        return empty_dictionary, magnitudes # also returning an dictionary for 
 
 
 

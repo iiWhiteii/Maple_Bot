@@ -11,9 +11,6 @@ class window_capture:
     offset_x = 0
     offset_y = 0
 
-
-
-    #Constructor
     def __init__(self,window_name = None): 
 
         if window_name is None:

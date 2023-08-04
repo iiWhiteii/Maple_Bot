@@ -47,7 +47,6 @@ class MapleEnv(gym.Env):
         "Memory_Monk_Facing_Left": self.info_capture['Memory_Monk_L.PNG'],
         "Memory_Monk_Death_Right": self.info_capture['Memory_Monk_Death_R.PNG'],
         "Memory_Monk_Death_Left": self.info_capture['Memory_Monk_Death_L.PNG']
-
                 }
 
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>

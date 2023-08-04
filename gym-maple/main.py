@@ -21,15 +21,15 @@ env = gym.make('gym_maple/MapleEnv-v0')
 print(env.observation_space) 
 
 env.reset()
+loop_time = time()  
 
-loop_time = time()
 while True:
     frame = wincap.screenshot()
     main_image = cv.imwrite('main_image.png',frame) # create it
     #print(main_image)
     image_match = ImageMatching('main_image.png', 0.74)    
     #these dictionary value will be representing as info capture by CV
-    dictionary = image_match.template_matching(template_images)
+    dictionary, magnitudes = image_match.template_matching(template_images)
 
     step = env.step(dictionary)
     
@@ -57,7 +57,6 @@ model = tf.keras.models.Sequential([
 def epsilon_greedy_policy(state,epsilon=0):
     if np.random.rand() < epsilon:
         return np.random.randint(n_outputs) # random action 
-    
     else: 
         Q_values = model.predict(state[np.newaxis], verbose=0)[0]
         return Q_values.argmax() 
@@ -70,10 +69,8 @@ def sample_experiences(batch_size):
     indices = np.random.randint(len(replay_buffer),size = batch_size)
     batch = [replay_buffer[index] for index in indices] 
     return [   
-
         np.array([experience[field_index] for experience in batch]) 
         for field_index in range(6)
-
     ]  
 
 
@@ -98,12 +95,30 @@ def training_step(batch_size):
     target_Q_values = target_Q_values.reshape(-1,1)
     mask = tf.one_hot(actions,n_outputs)
 
+
     with tf.GradientTape() as tape: 
         all_Q_values = model(states)
         Q_values = tf.reduce_sum(all_Q_values * mask, axis = 1, keepdims = True)
         loss = tf.reduce_mean(loss_fn(target_Q_values,Q_values))
+    grads = tape.gradient(loss,model.trainable_variables)  
+    optimizer.apply_gradients(zip(grads,model.trainable_variables))   
 
-    grads = tape.gradient(loss,model.trainable_variables)
-    optimizer.apply_gradients(zip(grads,model.trainable_variables))
+
+#rewards = [] 
+#for episode in range(600):
+ #   obs, info = env.reset() 
+  #  for step in range(200):
+   #     epsilon = max(1 - episode/500, 0.01) 
+    #    obs, reward, done, truncated, info = play_one_step(env,obs,epsilon)
+     #   rewards.append(reward)
+      #  if done or truncated:
+       #     break
+    #if episode > 50: 
+     #   training_step(batch_size)
+
+
+
+
+
 
 

@@ -30,6 +30,9 @@ class Deep_Q_Model:
     def sample_experiences(self, batch_size):
         indices = np.random.randint(len(self.replay_buffer), size=batch_size)
         batch = [self.replay_buffer[index] for index in indices]
+
+
+        
         return [
             np.array([experience[field_index] for experience in batch])
             for field_index in range(6)
@@ -39,7 +42,10 @@ class Deep_Q_Model:
         action = self.epsilon_greedy_policy(state, epsilon)
         next_state, reward, done, truncated, info = env.step(action)
         self.replay_buffer.append((state, action, reward, next_state, done, truncated))
-        return next_state, reward, done, truncated, info
+        return next_state, reward, done, truncated, info 
+    
+
+
 
     
         
