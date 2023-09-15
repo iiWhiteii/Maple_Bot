@@ -51,18 +51,28 @@ class ImageMatching():
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer_me.append(position_dictionary[name])
 
-                if name == 'Memory_Monk_L.PNG':
+                if name == 'npc.PNG':
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer.append(position_dictionary[name])
                 
 
                 magnitudes = []
 
-                print(replay_buffer_me,replay_buffer)  
+                #print(replay_buffer_me,replay_buffer)  
+
+                left_or_right = []
                 for vector1 in replay_buffer_me:
                     for vector2 in replay_buffer:
                         magnitude = math.sqrt((vector2[0] - vector1[0]) ** 2 + (vector2[1] - vector1[1]) ** 2)
-                        magnitudes.append(magnitude)
+                        magnitudes.append(magnitude) 
+
+                        if vector2[0] < vector1[0]: 
+                            left_or_right.append(0) # if the npc is on our left
+                        elif vector2[0] > vector1[0]: 
+                            left_or_right.append(1) # if the npc is on our left
+                                     
+                print(left_or_right)
+
                 print("Magnitudes:", magnitudes)
                     
         # Display the resulting frame
@@ -73,7 +83,7 @@ class ImageMatching():
         time.sleep(0.00001)
         os.remove('main_image.png') 
 
-        return empty_dictionary, magnitudes # also returning an dictionary for 
+        return empty_dictionary 
 
 
 

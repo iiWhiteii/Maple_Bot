@@ -21,12 +21,30 @@ class MapleEnv(gym.Env):
 
 
     reward = 0
-    def step(self, info_capture): # passing in additonal parameter 
-        self.info_capture = info_capture
+    def step(self, info_capture): 
 
-        '''There are a lot of limitation and improvement '''
+
+        self.info_capture = info_capture
+        
         if self.info_capture['Sword Illusion2.PNG'] == 1:
-            Sword_Illusion = True
+            Sword_Illusion = True 
+
+            if Sword_Illusion & self.info_capture['Multiple Kill 3.PNG'] == 1:
+                reward = 3
+                print(reward)
+
+            if Sword_Illusion & self.info_capture['Multiple Kill 4.PNG'] == 1:
+                reward = 4
+                print(reward) 
+
+            if Sword_Illusion & self.info_capture['Multiple Kill 5.PNG'] == 1:
+                reward = 5
+                print(reward)     
+
+            if Sword_Illusion & self.info_capture['Multiple Kill 6.PNG'] == 1:
+                reward = 6
+                print(reward)
+
             if Sword_Illusion & self.info_capture['Multiple Kill 7.PNG'] == 1:
                 reward = 7
                 print(reward)
@@ -56,7 +74,7 @@ class MapleEnv(gym.Env):
 
 
 
-        return obs, {}, reward, {}
+        return obs, reward, {}, {}
     
 
     def reset(self):
