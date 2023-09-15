@@ -7,12 +7,10 @@ class MapleEnv(gym.Env):
 
     def __init__(self):
         self.observation_space = spaces.Dict({
-            "Flash Blade": spaces.Discrete(2),
-            "Skill illusion": spaces.Discrete(2),
-            "Memory_Monk_Facing_Right": spaces.Discrete(51),
-            "Memory_Monk_Facing_Left": spaces.Discrete(51),
-            "Memory_Monk_Death_Right": spaces.Discrete(20),
-            "Memory_Monk_Death_Left": spaces.Discrete(20)
+
+            "left_or_right": spaces.Discrete(2),
+            "Magnitude": spaces.Discrete(2),
+            "Memory_Monk": spaces.Discrete(51),
             
         })
 
@@ -22,56 +20,52 @@ class MapleEnv(gym.Env):
 
     reward = 0
     def step(self, info_capture): 
-
-
         self.info_capture = info_capture
-        
-        if self.info_capture['Sword Illusion2.PNG'] == 1:
+        '''if self.info_capture['Sword Illusion2.PNG'] == 1:
             Sword_Illusion = True 
-
             if Sword_Illusion & self.info_capture['Multiple Kill 3.PNG'] == 1:
                 reward = 3
                 print(reward)
-
             if Sword_Illusion & self.info_capture['Multiple Kill 4.PNG'] == 1:
                 reward = 4
                 print(reward) 
-
             if Sword_Illusion & self.info_capture['Multiple Kill 5.PNG'] == 1:
                 reward = 5
                 print(reward)     
-
             if Sword_Illusion & self.info_capture['Multiple Kill 6.PNG'] == 1:
                 reward = 6
                 print(reward)
-
             if Sword_Illusion & self.info_capture['Multiple Kill 7.PNG'] == 1:
                 reward = 7
                 print(reward)
             if Sword_Illusion & self.info_capture['Multiple Kill 8.PNG'] == 1:
                 reward = 8
-                print(reward) 
-
-        #if self.info_capture['']
-
-
-
-
-            
+                print(reward) '''
+    
         obs = {
-        "Flash Blade": self.info_capture['Sword Illusion2.PNG'],
-        "Skill illusion": self.info_capture['Sword Illusion2.PNG'],
-        "Memory_Monk_Facing_Right": self.info_capture['Memory_Monk_R.PNG'],
-        "Memory_Monk_Facing_Left": self.info_capture['Memory_Monk_L.PNG'],
-        "Memory_Monk_Death_Right": self.info_capture['Memory_Monk_Death_R.PNG'],
-        "Memory_Monk_Death_Left": self.info_capture['Memory_Monk_Death_L.PNG']
+        "left_or_right": self.info_capture['left_or_right'],
+        "Magnitude": self.info_capture['magnitude'],
+        "Memory_Monk": self.info_capture['Memory_Monk_L.PNG'] + self.info_capture['Memory_Monk_R.PNG']
                 }
 
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
         #WARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'dict'>
 
-        reward = {0}
+        if self.info_capture['magnitude'] <= 250:
+            reward = 3 
+            print(reward)
+        else: 
+            reward = -3 
+            print(reward)
 
+        
+        if self.info_capture['Memory_Monk_Death_L.PNG'] > 0:
+            reward = self.info_capture['Memory_Monk_Death_L.PNG'] * 2 
+        
+        if self.info_capture['Memory_Monk_Death_R.PNG'] > 0:
+            reward = self.info_capture['Memory_Monk_Death_R.PNG'] * 2 
+
+        
 
 
         return obs, reward, {}, {}
@@ -80,12 +74,9 @@ class MapleEnv(gym.Env):
     def reset(self):
 
         obs = {
-        "Flash Blade": 0,
-        "Skill illusion": 0,
-        "Memory_Monk_Facing_Right": 0,
-        "Memory_Monk_Facing_Left": 0,
-        "Memory_Monk_Death_Right": 0,
-        "Memory_Monk_Death_Left": 0
+        "left_or_right": 0,
+        "Magnitude": 0,
+        "Memory_Monk": 0
                 }
 
 

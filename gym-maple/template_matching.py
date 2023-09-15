@@ -56,7 +56,7 @@ class ImageMatching():
                     replay_buffer.append(position_dictionary[name])
                 
 
-                magnitudes = []
+                #magnitudes = []
 
                 #print(replay_buffer_me,replay_buffer)  
 
@@ -64,16 +64,18 @@ class ImageMatching():
                 for vector1 in replay_buffer_me:
                     for vector2 in replay_buffer:
                         magnitude = math.sqrt((vector2[0] - vector1[0]) ** 2 + (vector2[1] - vector1[1]) ** 2)
-                        magnitudes.append(magnitude) 
+                        empty_dictionary['magnitude'] = magnitude
+                        #magnitudes.append(magnitude) 
 
                         if vector2[0] < vector1[0]: 
-                            left_or_right.append(0) # if the npc is on our left
-                        elif vector2[0] > vector1[0]: 
-                            left_or_right.append(1) # if the npc is on our left
+                            #left_or_right.append(0) # if the npc is on our left
+                            empty_dictionary['left_or_right'] = 1
+                        else:
+                            #left_or_right.append(1) # if the npc is on our left
+                            empty_dictionary['left_or_right'] = 2
                                      
-                print(left_or_right)
-
-                print("Magnitudes:", magnitudes)
+                #print(left_or_right)
+                #print("Magnitudes:", magnitudes)
                     
         # Display the resulting frame
         cv.imshow('Computer Vision', self.main_image)
