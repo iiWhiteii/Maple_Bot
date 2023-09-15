@@ -8,7 +8,6 @@ class MapleEnv(gym.Env):
     def __init__(self):
         self.observation_space = spaces.Dict({
 
-            "left_or_right": spaces.Discrete(2),
             "Magnitude": spaces.Discrete(2),
             "Memory_Monk": spaces.Discrete(51),
             
@@ -43,7 +42,6 @@ class MapleEnv(gym.Env):
                 print(reward) '''
     
         obs = {
-        "left_or_right": self.info_capture['left_or_right'],
         "Magnitude": self.info_capture['magnitude'],
         "Memory_Monk": self.info_capture['Memory_Monk_L.PNG'] + self.info_capture['Memory_Monk_R.PNG']
                 }
@@ -66,18 +64,12 @@ class MapleEnv(gym.Env):
             reward = self.info_capture['Memory_Monk_Death_R.PNG'] * 2 
 
         
-
-
         return obs, reward, {}, {}
     
-
     def reset(self):
-
         obs = {
-        "left_or_right": 0,
         "Magnitude": 0,
         "Memory_Monk": 0
                 }
-
 
         return obs, {}

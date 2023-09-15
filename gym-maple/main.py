@@ -37,7 +37,10 @@ while True:
 
     #these dictionary value will be representing as info capture by CV
     #print('obs:', obs_capture)
-    step = env.step(dictionary)
+    obs,reward,c,d = env.step(dictionary)
+    print('obs {} '.format(obs),'reward {} '.format(reward))
+
+    #print('obs:',obs,'reward:', reward)
     
 
     #Calculate FPS
