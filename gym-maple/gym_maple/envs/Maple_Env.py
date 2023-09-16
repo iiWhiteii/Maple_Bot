@@ -1,6 +1,7 @@
 import gym
 from gym import spaces
 from time import time
+import numpy as np
 
 class MapleEnv(gym.Env):
     metadata = {'render.modes': ['human']}
@@ -20,30 +21,10 @@ class MapleEnv(gym.Env):
     reward = 0
     def step(self, info_capture): 
         self.info_capture = info_capture
-        '''if self.info_capture['Sword Illusion2.PNG'] == 1:
-            Sword_Illusion = True 
-            if Sword_Illusion & self.info_capture['Multiple Kill 3.PNG'] == 1:
-                reward = 3
-                print(reward)
-            if Sword_Illusion & self.info_capture['Multiple Kill 4.PNG'] == 1:
-                reward = 4
-                print(reward) 
-            if Sword_Illusion & self.info_capture['Multiple Kill 5.PNG'] == 1:
-                reward = 5
-                print(reward)     
-            if Sword_Illusion & self.info_capture['Multiple Kill 6.PNG'] == 1:
-                reward = 6
-                print(reward)
-            if Sword_Illusion & self.info_capture['Multiple Kill 7.PNG'] == 1:
-                reward = 7
-                print(reward)
-            if Sword_Illusion & self.info_capture['Multiple Kill 8.PNG'] == 1:
-                reward = 8
-                print(reward) '''
-    
+        
         obs = {
-        "Magnitude": self.info_capture['magnitude'],
-        "Memory_Monk": self.info_capture['Memory_Monk_L.PNG'] + self.info_capture['Memory_Monk_R.PNG']
+        "Magnitude": np.array(self.info_capture['magnitude']),
+        "Memory_Monk": np.array(self.info_capture['Memory_Monk_L.PNG'] + self.info_capture['Memory_Monk_R.PNG'])
                 }
 
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
