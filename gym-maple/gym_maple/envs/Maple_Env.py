@@ -21,6 +21,9 @@ class MapleEnv(gym.Env):
     reward = 0
     def step(self, info_capture): 
         self.info_capture = info_capture
+
+        #self.action = action 
+        
         
         obs = {
         "Magnitude": np.array(self.info_capture['magnitude']),
@@ -29,7 +32,9 @@ class MapleEnv(gym.Env):
 
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
         #WARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'dict'>
+        
 
+        print('magnitude',self.info_capture['magnitude'])
         if self.info_capture['magnitude'] <= 250:
             reward = 3 
             print(reward)
@@ -39,10 +44,10 @@ class MapleEnv(gym.Env):
 
         
         if self.info_capture['Memory_Monk_Death_L.PNG'] > 0:
-            reward = self.info_capture['Memory_Monk_Death_L.PNG'] * 2 
+            reward = self.info_capture['Memory_Monk_Death_L.PNG'] * 10
         
         if self.info_capture['Memory_Monk_Death_R.PNG'] > 0:
-            reward = self.info_capture['Memory_Monk_Death_R.PNG'] * 2 
+            reward = self.info_capture['Memory_Monk_Death_R.PNG'] * 10
 
         
         return obs, reward, {}, {}

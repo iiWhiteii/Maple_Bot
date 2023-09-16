@@ -51,7 +51,7 @@ class ImageMatching():
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer_me.append(position_dictionary[name])
 
-                if name == 'Memory_Monk_L.PNG' or name == 'Memory_Monk_R.PNG':
+                if name == 'Memory_Monk_L.PNG' or name == 'Memory_Monk_R.PNG' or name =='npc.PNG':
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer.append(position_dictionary[name])
                 else: 

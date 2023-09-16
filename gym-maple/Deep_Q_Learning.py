@@ -11,7 +11,7 @@ from collections import deque
 
     
 input_shape = [2] # == env.observation_space.shape
-n_outputs = 4 # == env.action_space.n
+n_outputs = 2 # == env.action_space.n
 
 model = keras.models.Sequential([
     keras.layers.Dense(32, activation="elu", input_shape=input_shape),
@@ -22,9 +22,10 @@ model = keras.models.Sequential([
 
 def epsilon_greedy_policy(state, epsilon):
     if np.random.rand() < epsilon:
-        return np.random.randint(2)
+        return np.random.randint(4)
     else:
         Q_values = model.predict(state[np.newaxis])
+        print('Q_values:',Q_values)
         return np.argmax(Q_values[0]) 
 
 

@@ -24,23 +24,79 @@ print(env.observation_space)
 
 env.reset()     
 
+#
+import pyautogui
 
+from Deep_Q_Learning import epsilon_greedy_policy,training_step 
 
-#Constructuring Deep Neural Network
+epsilon = 0.50 
+min_epsilon = 0.01 
+epsilon_decay = 0.995  
+
+from collections import deque 
+replay_memory = deque(maxlen=2000)
+
 input_shape = [2] # == env.observation_space.shape
-n_outputs = 4 # == env.action_space.n
+n_outputs = 2 # == env.action_space.n
 
 model = keras.models.Sequential([
-    keras.layers.Dense(32, activation="elu", input_shape=input_shape),
-    keras.layers.Dense(32, activation="elu"),
+    keras.layers.Dense(44, activation="elu", input_shape=input_shape),
+    keras.layers.Dense(44, activation="elu"),
     keras.layers.Dense(n_outputs)
 ])  
 
+def epsilon_greedy_policy(state, epsilon):
+    if np.random.rand() < epsilon:
+        return np.random.randint(2)
+    else:
+        Q_values = model.predict(state[np.newaxis])
+        print('Q_values:',Q_values)
+        return np.argmax(Q_values[0]) 
 
-from Deep_Q_Learning import epsilon_greedy_policy
+def sample_experiences(batch_size):
+    indices = np.random.randint(len(replay_memory), size=batch_size)
+    batch = [replay_memory[index] for index in indices]
+    states, actions, rewards, next_states = [
+        np.array([experience[field_index] for experience in batch])
+        for field_index in range(4)]
+    return states, actions, rewards, next_states
+
+import pydirectinput
+
+batch_size = 32
+discount_rate = 0.95
+optimizer = keras.optimizers.Adam(lr=1e-3)
+loss_fn = keras.losses.mean_squared_error  
+
+
+def training_step(batch_size):
+    experiences = sample_experiences(batch_size)
+    print('experiences',experiences)
+    states, actions, rewards, next_states = experiences
+    next_Q_values = model.predict(next_states)
+    print('next_Q_values',next_Q_values)
+    max_next_Q_values = np.max(next_Q_values, axis=1)
+    print('max_next_Q_values',max_next_Q_values)
+    target_Q_values = rewards + (discount_rate * max_next_Q_values)
+    print('target_Q_values',target_Q_values)
+    mask = tf.one_hot(actions, n_outputs)
+    print('mask:',mask)
+    with tf.GradientTape() as tape:
+        all_Q_values = model(states)
+        Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
+        loss = tf.reduce_mean(loss_fn(target_Q_values, Q_values))
+    grads = tape.gradient(loss, model.trainable_variables)
+    optimizer.apply_gradients(zip(grads, model.trainable_variables))
 
 #loop_time = time()  
 episode = 0
+
+import time
+#epsilon = 0.50  
+
+benchmark_cumulative_reward = 30
+
+cumulative_reward = 0
 while True:
     episode += 1
     frame = wincap.screenshot()
@@ -50,32 +106,68 @@ while True:
     
     dictionary = image_match.template_matching(template_images)
 
-    print(dictionary)
+    #print(dictionary)
+
+    current_obs,dummy_reward,c,d = env.step(dictionary)  
+    current_obs = np.array((current_obs['Memory_Monk'],current_obs['Magnitude']))
+
+    epsilon = max(epsilon * epsilon_decay, min_epsilon)
+    #print('epsilon:',epsilon)
+
+    cumulative_reward += dummy_reward
+    print('cumulative_reward:',cumulative_reward) 
+
+
+    action = epsilon_greedy_policy(current_obs,epsilon)
+    print('greedy_policy',action)   
+
+    if action == 0:
+        pydirectinput.press('left')  # Simulate pressing the left arrow key
+        time.sleep(0.05)
+    if action == 1:
+        pydirectinput.press('right') 
+        time.sleep(0.05)  # Simulate pressing the right arrow key
+   # if action == 2:
+     #   pydirectinput.press('left') 
+     #   time.sleep(0.05)  # Simulate pressing and holding the Ctrl key
+   # if action == 3:
+     #   pydirectinput.press('right') 
+      #  time.sleep(0.05)  # Simulate pressing the 'w' key
+    
+   # print('greedy_policy',action)   
+
+    action = [action]
+    next_obs,reward,c,d = env.step(dictionary)
+    reward = [reward]
+    next_obs = [next_obs['Memory_Monk'],next_obs['Magnitude']]
+    print('reward', reward)
+    
+
+    replay_memory.append((current_obs,next_obs,reward,action)) 
 
 
     
-    obs,reward,c,d = env.step(dictionary) 
-    #obs = [obs['Magnitude'],obs['Memory_Monk']]
-    #print(obs['Memory_Monk'])
-    obs = np.array([obs['Memory_Monk'],obs['Magnitude']])
-    print('obs',obs)
 
-    epsilon = 0.50
-    print('greedy_policy',epsilon_greedy_policy(obs,epsilon)) # Trigger and do it action 
 
-    #When it trigger it do an action our environment response to it 
-    #---> Action that when trigger <---- 
-    #  we call this again obs,reward,c,d = env.step(dictionary) so we have information about obs, reward 
-    # we assign to memory for obs,reward then attach obs,reward append it to replay_memory
-    # then we have a if statement for reward  
-    # if the reward let say 100, we get our model to get_weights 
-    # 
-    # if episode is 50 then we use the training_step(batch_size)
-    # 
-    #  
+    if cumulative_reward > benchmark_cumulative_reward: 
+        benchmark_cumulative_reward = cumulative_reward
+        #training_step(batch_size=31) 
+        current_states, next_states, rewards, actions = sample_experiences(batch_size=30)
+        print(current_states, next_states,rewards,actions,'line 195')
 
-        
-    
+        next_Q_values = model.predict(next_states)
+        max_next_Q_values = np.max(next_Q_values, axis=1)
+        target_Q_values = rewards + (discount_rate * max_next_Q_values)
+        mask = tf.one_hot(actions, n_outputs)
+        with tf.GradientTape() as tape:
+            all_Q_values = model(current_states)
+            Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
+            loss = tf.reduce_mean(loss_fn(target_Q_values, Q_values))
+        grads = tape.gradient(loss, model.trainable_variables)
+        optimizer.apply_gradients(zip(grads, model.trainable_variables))
+
+
+
 
 
 
