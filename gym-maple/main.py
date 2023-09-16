@@ -1,3 +1,9 @@
+
+#Goal is to make this works
+
+#Name : Liang
+# Project DQL On Maplestory 
+
 import cv2 as cv
 import os
 from time import time
@@ -27,7 +33,7 @@ env.reset()
 #
 import pyautogui
 
-from Deep_Q_Learning import epsilon_greedy_policy,training_step 
+from Deep_Q_Learning import epsilon_greedy_policy, training_step 
 
 epsilon = 0.50 
 min_epsilon = 0.01 
@@ -70,17 +76,17 @@ loss_fn = keras.losses.mean_squared_error
 
 
 def training_step(batch_size):
-    experiences = sample_experiences(batch_size)
-    print('experiences',experiences)
+    experiences = sample_experiences(batch_size) # this works
+    #print('experiences',experiences)
     states, actions, rewards, next_states = experiences
     next_Q_values = model.predict(next_states)
-    print('next_Q_values',next_Q_values)
+   # print('next_Q_values',next_Q_values)
     max_next_Q_values = np.max(next_Q_values, axis=1)
-    print('max_next_Q_values',max_next_Q_values)
+   # print('max_next_Q_values',max_next_Q_values)
     target_Q_values = rewards + (discount_rate * max_next_Q_values)
-    print('target_Q_values',target_Q_values)
+    #print('target_Q_values',target_Q_values)
     mask = tf.one_hot(actions, n_outputs)
-    print('mask:',mask)
+    #print('mask:',mask)
     with tf.GradientTape() as tape:
         all_Q_values = model(states)
         Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
@@ -95,8 +101,8 @@ import time
 #epsilon = 0.50  
 
 benchmark_cumulative_reward = 30
+cumulative_reward = 0 
 
-cumulative_reward = 0
 while True:
     episode += 1
     frame = wincap.screenshot()
@@ -146,30 +152,27 @@ while True:
     replay_memory.append((current_obs,next_obs,reward,action)) 
 
 
-    
+    print(replay_memory)
 
 
     if cumulative_reward > benchmark_cumulative_reward: 
         benchmark_cumulative_reward = cumulative_reward
         #training_step(batch_size=31) 
         current_states, next_states, rewards, actions = sample_experiences(batch_size=30)
-        print(current_states, next_states,rewards,actions,'line 195')
+        print(current_states, next_states,rewards,actions)
 
-        next_Q_values = model.predict(next_states)
+        print('next_state:',next_states)
+
+        next_Q_values = model.predict(next_states) 
+        print('next_Q_values',next_Q_values) 
+
         max_next_Q_values = np.max(next_Q_values, axis=1)
-        target_Q_values = rewards + (discount_rate * max_next_Q_values)
-        mask = tf.one_hot(actions, n_outputs)
-        with tf.GradientTape() as tape:
-            all_Q_values = model(current_states)
-            Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
-            loss = tf.reduce_mean(loss_fn(target_Q_values, Q_values))
-        grads = tape.gradient(loss, model.trainable_variables)
-        optimizer.apply_gradients(zip(grads, model.trainable_variables))
+        print('max_next_Q_values',max_next_Q_values)
 
 
 
 
-
+        
 
     #Calculate FPS
     ##print('FPS {}'.format(1 / (time() - loop_time)))
