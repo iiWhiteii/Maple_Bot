@@ -11,23 +11,21 @@ class MapleEnv(gym.Env):
 
             "Magnitude": spaces.Discrete(2),
             "Memory_Monk": spaces.Discrete(51),
+            'num_nearby_npcs' : spaces.Discrete(25),
             
         })
 
         self.action_space = spaces.Discrete(9)  
 
 
-
     reward = 0
     def step(self, info_capture): 
         self.info_capture = info_capture
-
-        #self.action = action 
-        
-        
+                
         obs = {
-        "Magnitude": np.array(self.info_capture['magnitude']),
-        "Memory_Monk": np.array(self.info_capture['Memory_Monk_L.PNG'] + self.info_capture['Memory_Monk_R.PNG'])
+        "Magnitude": self.info_capture['magnitude'],
+        "Memory_Monk": self.info_capture['Memory_Monk_L.PNG'] + self.info_capture['Memory_Monk_R.PNG'], 
+        'num_nearby_npcs' : self.info_capture['num_nearby_npcs']
                 }
 
         #WARN: Expects `done` signal to be a boolean, actual type: <class 'dict'>
@@ -35,27 +33,41 @@ class MapleEnv(gym.Env):
         
 
         print('magnitude',self.info_capture['magnitude'])
-        if self.info_capture['magnitude'] <= 250:
-            reward = 3 
+        if self.info_capture['num_nearby_npcs'] > 2:
+            reward = 10
             print(reward)
         else: 
-            reward = -3 
+            reward = -0.05
             print(reward)
+
+
+        if self.info_capture['magnitude'] < 250:
+            reward = 10
+        else: 
+            reward = -10
+   
+
+
+
 
         
         if self.info_capture['Memory_Monk_Death_L.PNG'] > 0:
-            reward = self.info_capture['Memory_Monk_Death_L.PNG'] * 10
+            reward = self.info_capture['Memory_Monk_Death_L.PNG'] * 25
         
         if self.info_capture['Memory_Monk_Death_R.PNG'] > 0:
-            reward = self.info_capture['Memory_Monk_Death_R.PNG'] * 10
+            reward = self.info_capture['Memory_Monk_Death_R.PNG'] * 25
 
         
-        return obs, reward, {}, {}
+        return obs, reward, {} , {}
     
     def reset(self):
+
+        
+
         obs = {
         "Magnitude": 0,
-        "Memory_Monk": 0
+        "Memory_Monk": 0, 
+        'num_nearby_npcs' : 0
                 }
 
         return obs, {}
