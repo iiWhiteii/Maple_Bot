@@ -22,6 +22,10 @@ class ImageMatching():
         for img in template_images: 
             name = (os.path.basename(img))
             # Convert the main image to grayscale
+
+#IMREAD_GRAYSCALE swapeed
+#COLOR_BGR2GRAY
+
             main_gray = cv.cvtColor(self.main_image, cv.COLOR_BGR2GRAY)
             template_image = cv.imread(img) 
             # Convert the template image to grayscale
@@ -51,22 +55,30 @@ class ImageMatching():
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer_me.append(position_dictionary[name])
 
-                if name == 'Memory_Monk_L.PNG' or name == 'Memory_Monk_R.PNG' or name =='npc.PNG':
+                if name =='npc.PNG':
                     position_dictionary[name] = [pt[0],pt[1]] 
                     replay_buffer.append(position_dictionary[name])
-                else: 
-                    empty_dictionary['magnitude'] = 0 
                 
-
+                
+                empty_dictionary['magnitude'] = 500
                 #magnitudes = []
 
                 #print(replay_buffer_me,replay_buffer)  
-
+                nearby_npc_positions = []
                 #left_or_right = []
                 for vector1 in replay_buffer_me:
                     for vector2 in replay_buffer:
                         magnitude = math.sqrt((vector2[0] - vector1[0]) ** 2 + (vector2[1] - vector1[1]) ** 2)
-                        empty_dictionary['magnitude'] = magnitude
+                        empty_dictionary['magnitude'] = magnitude 
+
+                        #if magnitude <= 300:
+                           # nearby_npc_positions.append(vector2) 
+
+                num_nearby_npcs = len(nearby_npc_positions)
+                #print('num_nearby_npcs',num_nearby_npcs)
+                empty_dictionary['num_nearby_npcs'] = num_nearby_npcs
+
+                
 
 
 
@@ -87,7 +99,7 @@ class ImageMatching():
 
         # Remove the main_image.png file 
 
-        time.sleep(0.00001)
+        #time.sleep(0.00001)
         os.remove('main_image.png') 
 
         return empty_dictionary 
