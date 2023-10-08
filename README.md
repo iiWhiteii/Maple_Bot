@@ -6,16 +6,18 @@ Presently, the development of this bot is ongoing. I am currently working on int
 <div style="position: relative; display: flex; align-items: flex-start;">
     <!-- Image on the left -->
     <div style="width: 50%;">
-        <a href="https://www.youtube.com/watch?v=jl7Z8Bxk6uc" target="_blank">
-            <img src="https://img.youtube.com/vi/jl7Z8Bxk6uc/0.jpg" alt="YouTube Video Thumbnail" style="width: 50%;">
+        <a href="https://www.youtube.com/channel/YourChannelID" target="_blank">
+            <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/Animation.gif" alt="GIF" style="width: 100%;">
         </a>
     </div>
+    <!-- Text on the right -->
     <div style="width: 50%; padding-left: 20px;">
         <p style="position: absolute; bottom: 0; left: 0;">
             Before, I had utilized OpenCV template matching and encountered various limitations, particularly in the detection of non-playable characters (NPCs). Now, I have opted to proceed with YOLOv8, and the performance is significantly improved.
         </p>
     </div>
 </div>
+
 
 
 ## Yolov8
