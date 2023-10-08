@@ -6,7 +6,18 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
 
 ## Yolov8 
-<img src="https://github.com/Whiteii/Maple_Bot/blob/main/gym-maple/position_minimap_detector/runs/detect/train/val_batch0_labels.jpg" alt="Image 1" width="400"/>
+
+<div style="display: flex; flex-direction: row;">
+  <div style="width: 50%;">
+    <img src="https://github.com/Whiteii/Maple_Bot/blob/main/gym-maple/position_minimap_detector/runs/detect/train/val_batch0_labels.jpg" alt="Image 1" width="400"/>
+    <p>Caption for Image 1</p>
+  </div>
+  <div style="width: 50%;">
+    <img src="Images/maplestory_background.JPG" alt="Image 2" width="400"/>
+    <p>Caption for Image 2</p>
+  </div>
+</div>
+
 
 
 
