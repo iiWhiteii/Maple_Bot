@@ -6,7 +6,7 @@ Presently, the development of this bot is ongoing. I am currently working on int
 <div style="position: relative; display: flex; align-items: flex-start;">
     <!-- Image on the left -->
     <div style="width: 50%;">
-        <a href="https://www.youtube.com/channel/YourChannelID" target="_blank">
+        <a href="https://www.youtube.com/watch?v=jl7Z8Bxk6uc&ab_channel=Liang" target="_blank">
             <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/Animation.gif" alt="GIF" style="width: 100%;">
         </a>
     </div>
