@@ -7,7 +7,7 @@ Presently, the development of this bot is ongoing. I am currently working on int
     <!-- Image on the left -->
     <div style="width: 50%;">
         <a href="https://www.youtube.com/watch?v=jl7Z8Bxk6uc" target="_blank">
-            <img src="https://img.youtube.com/vi/jl7Z8Bxk6uc/0.jpg" alt="YouTube Video Thumbnail" style="width: 100%;">
+            <img src="https://img.youtube.com/vi/jl7Z8Bxk6uc/0.jpg" alt="YouTube Video Thumbnail" style="width: 50%;">
         </a>
     </div>
     <div style="width: 50%; padding-left: 20px;">
