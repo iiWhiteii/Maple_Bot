@@ -3,7 +3,6 @@
 Presently, the development of this bot is ongoing. I am currently working on integrating YOLOv8 to establish a gym environment. A gym environment is a framework where the agent can undergo training based on past experiences to enhance its intelligence. This approach enables the agent to learn and improve its gameplay over time.
 
 ## OpenCV for template matching
-
 <div style="position: relative; display: flex; align-items: flex-start;">
     <!-- Image on the left -->
     <div style="width: 50%;">
@@ -17,6 +16,7 @@ Presently, the development of this bot is ongoing. I am currently working on int
 </div>
 
 
+## Yolov8
 Currently, I am implementing YOLOv8 to capture faces of monsters and my character's position on the minimap. Additionally, there is a green circle on the minimap indicating a certain aspect of the environment.
 
 
