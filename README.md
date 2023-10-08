@@ -9,7 +9,6 @@ Presently, the development of this bot is ongoing. I am currently working on int
     <div style="width: 50%;">
         <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/maplestory_background.JPG" alt="Image 2" width="400"/>
     </div>
-    <!-- Text on the right -->
     <div style="width: 50%; padding-left: 20px;">
         <p style="position: absolute; bottom: 0; left: 0;">
             Before, I had utilized OpenCV template matching and encountered various limitations, particularly in the detection of non-playable characters (NPCs). Now, I have opted to proceed with YOLOv8, and the performance is significantly improved.
@@ -20,3 +19,4 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
 
 Currently, I am implementing YOLOv8 to capture faces of monsters and my character's position on the minimap. Additionally, there is a green circle on the minimap indicating a certain aspect of the environment.
+![Bottom Image](https://github.com/Whiteii/Maple_Bot/blob/main/Images/image.png)
