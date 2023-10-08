@@ -6,7 +6,7 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
 
 ## Installation 
-![Image 1](https://github.com/Whiteii/Maple_Bot/blob/main/gym-maple/position_minimap_detector/runs/detect/train/val_batch0_labels.jpg)
+<img src="https://github.com/Whiteii/Maple_Bot/blob/main/gym-maple/position_minimap_detector/runs/detect/train/val_batch0_labels.jpg" alt="Image 1" width="400"/>
 
 
  
