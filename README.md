@@ -6,7 +6,7 @@ Presently, the development of this bot is ongoing. I am currently working on int
 <div style="position: relative; display: flex; align-items: flex-start;">
     <!-- Image on the left -->
     <div style="width: 50%;">
-        <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/maplestory_background.JPG" alt="Image 2" width="400"/>
+        [![YouTube Video](https://img.youtube.com/vi/jl7Z8Bxk6uc/0.jpg)](https://www.youtube.com/watch?v=jl7Z8Bxk6uc)
     </div>
     <div style="width: 50%; padding-left: 20px;">
         <p style="position: absolute; bottom: 0; left: 0;">
