@@ -30,7 +30,7 @@ Currently, I am implementing YOLOv8 to capture faces of monsters and my characte
 </div> 
 
 <p align="center">
-    <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/1_wfKvMsVMkUhEGz1YH7kCQA.png" width="500" height="320">
+    <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/1_wfKvMsVMkUhEGz1YH7kCQA.png" width="320" height="320">
     <br>
     <strong>Reinforcement Learning with DQN</strong>
     <br>
