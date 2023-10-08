@@ -10,6 +10,8 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
 Currently, I am implementing YOLOv8 to capture faces of monsters and my character's position on the minimap. Additionally, there is a green circle on the minimap indicating a certain aspect of the environment.
 
+[![YouTube Video](https://img.youtube.com/vi/jl7Z8Bxk6uc/0.jpg)](https://www.youtube.com/watch?v=jl7Z8Bxk6uc&ab_channel=Liang)
+
 
 
  
