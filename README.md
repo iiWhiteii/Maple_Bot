@@ -7,7 +7,7 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
   <div style="position: absolute; left: 0; top: 0; width: 50%;">
     <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/maplestory_background.JPG" alt="Image 2" width="400"/>
-    <p style="position: absolute; bottom: 0; left: 0;">Caption for Image 2</p>
+    <p style="position: absolute; bottom: 0; left: 0;">Before, I had utilized OpenCV template matching and encountered various limitations, particularly in the detection of non-playable characters (NPCs). Now, I have opted to proceed with YOLOv8, and the performance is significantly improved.</p>
   </div>
 
 
