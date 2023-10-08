@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 6
+names: ['character_position', 'eye_of_time', 'eye_of_time_death', 'memory_monk', 'memory_monk_death', 'yellow_dot']
+
+roboflow:
+  workspace: liang-zhang-xlwuv
+  project: maplestory_minimap_position
+  version: 5
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/liang-zhang-xlwuv/maplestory_minimap_position/dataset/5
