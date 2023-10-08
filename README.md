@@ -19,5 +19,4 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
 Currently, I am implementing YOLOv8 to capture faces of monsters and my character's position on the minimap. Additionally, there is a green circle on the minimap indicating a certain aspect of the environment.
 
-![Bottom Image](https://github.com/Whiteii/Maple_Bot/blob/main/Images/image.png){:width="400px"}
 
