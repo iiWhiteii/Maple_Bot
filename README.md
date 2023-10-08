@@ -4,7 +4,7 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
 ## Yolov8 
 <div style="display: flex; flex-direction: row;">
-  <div style="width: 50%; margin-right: 10px;">
+  <div style="width: 50%; margin-right: 50px;">
     <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/maplestory_background.JPG" alt="Image 2" width="400"/>
     <p>Caption for Image 2</p>
   </div>
