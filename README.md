@@ -22,6 +22,6 @@ Currently, I am implementing YOLOv8 to capture faces of monsters and my characte
 
 <div style="float: right; margin-left: 2%;">
   <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/image.png" alt="Bottom Image" width="450"/>
-  <p>Text on the right of the image</p>
+  <p>In the present implementation of YOLOv8, there are anticipated changes in the future. Instead of identifying the entire body of an NPC, the system will be configured to specifically detect their faces.</p>
 </div>
 
