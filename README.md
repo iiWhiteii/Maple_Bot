@@ -4,10 +4,6 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
 ## Yolov8 
 
-To achieve the desired layout where the image is on the left and the text is on the right, you can adjust the CSS styling. Here's an example of how you can modify the HTML and CSS:
-
-html
-Copy code
 <div style="position: relative; display: flex; align-items: flex-start;">
     <!-- Image on the left -->
     <div style="width: 50%;">
@@ -15,7 +11,7 @@ Copy code
     </div>
     <!-- Text on the right -->
     <div style="width: 50%; padding-left: 20px;">
-        <p style="position: absolute; bottom: 0; left: 0;">
+        <p style="position: absolute; bottom: 0; left: 40;">
             Before, I had utilized OpenCV template matching and encountered various limitations, particularly in the detection of non-playable characters (NPCs). Now, I have opted to proceed with YOLOv8, and the performance is significantly improved.
         </p>
     </div>
