@@ -5,8 +5,11 @@ Presently, the development of this bot is ongoing. I am currently working on int
 
 
 
-## Installation 
+## Yolov8 
 <img src="https://github.com/Whiteii/Maple_Bot/blob/main/gym-maple/position_minimap_detector/runs/detect/train/val_batch0_labels.jpg" alt="Image 1" width="400"/>
+
+Currently, I am implementing YOLOv8 to capture faces of monsters and my character's position on the minimap. Additionally, there is a green circle on the minimap indicating a certain aspect of the environment.
+
 
 
  
