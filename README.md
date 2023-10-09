@@ -34,7 +34,7 @@ Currently, I am implementing YOLOv8 to capture faces of monsters and my characte
     <br>
     <strong>Reinforcement Learning with DQN</strong>
     <br>
-    This reinforcement learning algorithm, known as DQN (Deep Q Learning), allows our agent to learn in an environment where the agent gets rewarded for certain right actions and penalized for certain bad actions.
+    Currently I'm at the final part of this project. The final part involve with collecting specific data from me playing the game then feed those data into reinforcement learning algorithm, known as DQN (Deep Q Learning), allows our agent to learn in an environment where the agent gets rewarded for certain right actions and penalized for certain bad actions.
     The algorithm learned to play games like Breakout, Pong, and Space Invaders at or above human-level performance. Currently, I'm testing this out with the hope of working on modern 2d game known as Maplestory
 </p>
 
