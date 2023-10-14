@@ -3,23 +3,18 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from collections import deque
-import pydirectinput
-
 import time
 
 class DQN:
-    def __init__(self, input_shape, n_outputs, learning_rate=1e-3, discount_rate=0.95, batch_size=32):
+    def __init__(self, input_shape, n_outputs, learning_rate=1e-3, discount_rate=0.95):
         self.input_shape = input_shape
         self.n_outputs = n_outputs
-        self.batch_size = batch_size
         self.discount_rate = discount_rate
 
         # Create the DQN model
         self.model = self.build_model()
 
-        # Initialize replay memory
-        self.replay_memory = deque(maxlen=2000)
-
+        
         # Create optimizer and loss function
         self.optimizer = keras.optimizers.Adam(learning_rate=learning_rate)
         self.loss_fn = keras.losses.mean_squared_error
@@ -40,7 +35,6 @@ class DQN:
             return np.argmax(Q_values[0])
 
     def training_step(self):
-        states, actions, rewards, next_states = self.sample_experiences()
         next_Q_values = self.model.predict(next_states)
         max_next_Q_values = np.max(next_Q_values, axis=1)
         target_Q_values = rewards + (self.discount_rate * max_next_Q_values)

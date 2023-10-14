@@ -25,17 +25,16 @@ class MapleEnv(gym.Env):
     def step(self, info_capture): 
         self.info_capture = info_capture
 
-        reward = 0 
-        dummy = 0 
+        reward = 0
 
         print(self.info_capture)
 
         if len(self.info_capture['eye_of_time_death_pos']) > 0: 
-            reward = len(self.info_capture['eye_of_time_death_pos']) * 1
+            reward =  len(self.info_capture['eye_of_time_death_pos']) * 1
             
 
         elif len(self.info_capture['memory_monk_death_pos']) > 0: 
-            reward = len(self.info_capture['memory_monk_death_pos']) * 1 
+            reward = len(self.info_capture['memory_monk_death_pos']) * 1
             
         else: 
             self.green_circle_pos = self.info_capture['green circle']
@@ -49,7 +48,7 @@ class MapleEnv(gym.Env):
                     if distance <= 19:
                         reward = 0.50
                     else:
-                        reward = -0.50
+                        reward = -1
                     
 
     
@@ -73,7 +72,7 @@ class MapleEnv(gym.Env):
             
 
         
-        return obs, reward, dummy , {}
+        return obs, reward, {} , {}
     
     def reset(self):
 

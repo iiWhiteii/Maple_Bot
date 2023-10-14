@@ -1,7 +1,7 @@
 
 
 import math 
-import numpy
+import numpy as np
 
 
 class state:
@@ -10,7 +10,7 @@ class state:
 
     '''
     def __init__(self):
-        self.State = []
+        self.State = np.array([])
         
 
     def state(self,charc_pos,eye_of_time_pos,memory_monk_pos,yellow_dot_pos, green_circle_pos):
@@ -53,26 +53,24 @@ class state:
         min_npc_threshold = max(self.most_npc_on_top,self.most_npc_on_bottom,self.most_npc_on_left,self.most_npc_on_right)   
 
         if len(self.yellow_dot_pos) > 0:
-            self.State = [-1, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]
+            self.State = np.array([-1, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]])
 
         if len(self.yellow_dot_pos) > 0 and min_npc_threshold != 0 : 
 
             if self.most_npc_on_top >= min_npc_threshold:
-                self.State = [0, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]
+                self.State = np.array(([0, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]))
 
             if self.most_npc_on_bottom >= min_npc_threshold:
-                self.State = [1, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]
+                self.State = np.array([1, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]])
 
             if self.most_npc_on_right >= min_npc_threshold:
-                self.State = [2, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]
+                self.State = np.array([2, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]])
 
             if self.most_npc_on_left >= min_npc_threshold:
-                self.State = [3, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]
+                self.State = np.array(([3, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]))
                 
 
-             
-
-        return self.State
+        return np.array(self.State)
             
 
 
