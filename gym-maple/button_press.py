@@ -1,12 +1,15 @@
 from pynput import keyboard
 import time
 
+
+from collections import deque
+
 class KeyTracker:
     def __init__(self):
         self.last_left_pressed = 0
         self.alt_l_count = 0
         self.alt_r_count = 0 
-        self.actions = []
+        self.actions = deque(maxlen=1)
 
         self.left_trigger = False
         self.right_trigger = False
@@ -68,7 +71,7 @@ class KeyTracker:
             self.actions.append(3)
 
 
-        if isinstance(key,keyboard.KeyCode) and key.char == '1':
+        if isinstance(key,keyboard.KeyCode) and key.char == 'q':
             print('One is pressed')
             self.actions.append(4)
 

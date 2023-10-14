@@ -24,11 +24,11 @@ class model:
         
         self.class_label = []
         self.player_coordinates = []
-        self.coordinates_label1 = [] 
-        self.coordinates_label2 = [] 
+        self.eye_of_time_pos = [] 
+        self.eye_of_time_death_pos = [] 
         self.memory_monk_coordinates = []  
-        self.coordinates_label4 = [] 
-        self.coordinates_label5 = []
+        self.memory_monk_death_coordinates = [] 
+        self.yellow_dot_pos = []
 
         self.label_counter = {}
 
@@ -46,7 +46,7 @@ class model:
         
         for data in self.detected_object.boxes.data.tolist():
             
-            self.screenshot = cv.rectangle(screenshot, (int(data[0]), int(data[1])), (int(data[2]),int(data[3])), (0, 255, 0), 2)
+            self.screenshot = cv.rectangle(screenshot, (int(data[0]), int(data[1])), (int(data[2]),int(data[3])), (0, 255, 0), 2)    
             
             
             
@@ -63,7 +63,7 @@ class model:
                 self.center_x = (int(data[0]) + int(data[2])) // 2
                 self.center_y = (int(data[1]) + int(data[3])) // 2
                 
-                self.coordinates_label1.append(( self.center_x, self.center_y ))
+                self.eye_of_time_pos.append(( self.center_x, self.center_y ))
                 
                 cv.circle(self.screenshot, (self.center_x, self.center_y), radius=2, color=(0, 0, 255), thickness=-1)
 
@@ -72,7 +72,7 @@ class model:
                 self.center_y = (int(data[1]) + int(data[3])) // 2
                 
                 
-                self.coordinates_label2.append(( self.center_x, self.center_y ))
+                self.eye_of_time_death_pos.append(( self.center_x, self.center_y ))
                 
                 cv.circle(self.screenshot, (self.center_x, self.center_y), radius=2, color=(0, 0, 255), thickness=-1)
 
@@ -88,7 +88,7 @@ class model:
                 self.center_y = (int(data[1]) + int(data[3])) // 2 
 
 
-                self.coordinates_label4.append(( self.center_x, self.center_y ))
+                self.memory_monk_death_coordinates.append(( self.center_x, self.center_y ))
                 
                 cv.circle(self.screenshot, (self.center_x, self.center_y), radius=2, color=(0, 0, 255), thickness=-1)
 
@@ -98,7 +98,7 @@ class model:
                 self.center_y = (int(data[1]) + int(data[3])) // 2
 
                 
-                self.coordinates_label5.append((self.center_x,  self.center_y  ))
+                self.yellow_dot_pos.append((self.center_x,  self.center_y  ))
                 
                 cv.circle(self.screenshot, (self.center_x, self.center_y), radius=2, color=(0, 0, 255), thickness=-1)
 
@@ -112,7 +112,7 @@ class model:
 
        
 
-        return self.screenshot, self.player_coordinates,self.coordinates_label1,self.coordinates_label2,self.memory_monk_coordinates,self.coordinates_label4,self.coordinates_label5, self.green_circle_coordinates
+        return self.screenshot, self.player_coordinates,self.eye_of_time_pos, self.eye_of_time_death_pos, self.memory_monk_coordinates,self.memory_monk_death_coordinates,self.yellow_dot_pos, self.green_circle_coordinates
 
     
     # I want to detect object position etc

@@ -39,38 +39,6 @@ class DQN:
             Q_values = self.model.predict(state[np.newaxis])
             return np.argmax(Q_values[0])
 
-    def sample_experiences(self):
-        indices = np.random.randint(len(self.replay_memory), size=self.batch_size)
-        batch = [self.replay_memory[index] for index in indices]
-        states, actions, rewards, next_states = [
-            np.array([experience[field_index] for experience in batch])
-            for field_index in range(4)]
-        
-        return states, actions, rewards, next_states
-
-    def play_one_step(self, env, state, epsilon,dictionary):
-        action = self.epsilon_greedy_policy(state, epsilon)
-        #print('action:',action)
-
-        #pydirectinput.keyUp('left')
-       # pydirectinput.keyUp('right')
-       # if action == 0:
-        #    time.sleep(0.10)
-         #   pydirectinput.keyDown('left')
-                
-        #if action == 1: 
-        #time.sleep(0.10)
-        #pydirectinput.keyDown('right')
-
-        
-        next_state, reward, dummy_a, dummy_b = env.step(dictionary)
-        next_state = np.array([next_state['Magnitude'],next_state['Memory_Monk'],next_state['num_nearby_npcs']])
-        memory = state, action, reward, next_state
-        self.replay_memory.append(memory)
-        #print(self.replay_memory)
-        #print(self.replay_memory)
-        return next_state, reward, action
-
     def training_step(self):
         states, actions, rewards, next_states = self.sample_experiences()
         next_Q_values = self.model.predict(next_states)
