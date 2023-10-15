@@ -30,11 +30,11 @@ class MapleEnv(gym.Env):
         print(self.info_capture)
 
         if len(self.info_capture['eye_of_time_death_pos']) > 0: 
-            reward =  len(self.info_capture['eye_of_time_death_pos']) * 1
+            reward =  len(self.info_capture['eye_of_time_death_pos']) * 2
             
 
         elif len(self.info_capture['memory_monk_death_pos']) > 0: 
-            reward = len(self.info_capture['memory_monk_death_pos']) * 1
+            reward = len(self.info_capture['memory_monk_death_pos']) * 2
             
         else: 
             self.green_circle_pos = self.info_capture['green circle']

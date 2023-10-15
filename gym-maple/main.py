@@ -10,9 +10,10 @@ import math
 from state import state
 import time
 import sys
+import tensorflow as tf
 from tensorflow import keras
 from collections import deque
-import tensorflow as tf
+
 
 
 
@@ -46,18 +47,23 @@ def press_and_release(key, duration=0.1):
     time.sleep(duration)
     pdi.keyUp(key)
 
+def special_press_and_release(key):
+    pdi.keyDown(key)
+    pdi.keyUp(key)
+
 
 
 model = keras.models.Sequential([
     keras.layers.Dense(128, activation="elu", input_shape=(3,)),
     keras.layers.Dense(64, activation="elu"),
-    keras.layers.Dense(4)
+    keras.layers.Dense(32, activation="elu"),
+    keras.layers.Dense(6)
 ])
 
 
 def epsilon_greedy_policy(state, epsilon):
     if np.random.rand() < epsilon:
-        random_action = np.random.randint(4)
+        random_action = np.random.randint(6)
         perform_action(random_action)
         return random_action
     else:
@@ -76,16 +82,16 @@ def perform_action(action):
         press_and_release("right")
         press_and_release("alt")
         press_and_release("alt")
-    #elif action == 2:
-     #   press_and_release("up")
-      #  press_and_release("w")
-    #elif action == 3:
-     #   press_and_release("down")
-      #  press_and_release("w")
     elif action == 2:
+        special_press_and_release("up")
+        special_press_and_release("w")
+    elif action == 3:
+        special_press_and_release("down")
+        special_press_and_release("w")
+    elif action == 4:
         press_and_release("right")
         press_and_release("q")
-    elif action == 3:
+    elif action == 5:
         press_and_release("left")
         press_and_release("q")
 
@@ -103,26 +109,24 @@ def play_one_step(state, epsilon):
     return action
 
 
-replay_memory = deque(maxlen=5000)
+replay_memory = deque(maxlen=7000)
 
 def sample_experiences(batch_size):
-    indices = np.random.randint(len(replay_memory), size=batch_size)
-    batch = [replay_memory[index] for index in indices]
-    
-    # Transpose the batch to get lists of each field
-    current_states, actions, rewards, next_states = np.array(batch).T
-    
-    return np.array(current_states.tolist()), np.array(actions.tolist()), np.array(rewards.tolist()), np.array(next_states.tolist())
+    indices = np.random.randint(len(replay_memory), size = batch_size)
+    batch = [replay_memory[index] for index in indices] 
+    return [np.array([experience[field_index] for experience in batch]) for field_index in range(4)] 
 
 
 
-loss_fn = keras.losses.mean_squared_error
+
 optimizer = keras.optimizers.Adam(lr=1e-3)
-
+loss_fn = keras.losses.mean_squared_error
 
 
 def training_step(batch_size,discount_rate): 
     current_states, actions, rewards, next_states = sample_experiences(batch_size)
+    actions = np.array(actions)
+    rewards = np.array(rewards)
     next_Q_values = model.predict(next_states)
     max_next_Q_values = np.max(next_Q_values, axis=1)
     target_Q_values = rewards + (discount_rate * max_next_Q_values)
@@ -133,20 +137,19 @@ def training_step(batch_size,discount_rate):
         loss = tf.reduce_mean(loss_fn(target_Q_values, Q_values))   
     grads = tape.gradient(loss, model.trainable_variables)
     optimizer.apply_gradients(zip(grads, model.trainable_variables))
+    print('optimizer:', optimizer.apply_gradients(zip(grads, model.trainable_variables)))
     
 
-    return optimizer.apply_gradients(zip(grads, model.trainable_variables))
 
 
-batch_size = 25
+
 epsilon = 0.01
 step_count = 0
 training_frequency = 25
 
 
-
 while True:
-    step_count += 0.50 
+    step_count += 1
     # Get an updated image of the game
     screenshot = wincap.get_screenshot()
     screenshot, charc_pos, eye_of_time_pos, eye_of_time_kills, memory_monk_pos, memory_monk_kills, yellow_dot_pos, greencircle_pos = yolov8.detection(screenshot)
@@ -157,7 +160,6 @@ while True:
                                           memory_monk_pos=memory_monk_pos, yellow_dot_pos=yellow_dot_pos,
                                           green_circle_pos=greencircle_pos)
     
-    current_state = np.array(current_state)
     print('current_state:',current_state)
 
 
@@ -165,30 +167,38 @@ while True:
     hashmap = { 'memory_monk_death_pos' : memory_monk_kills, 'eye_of_time_death_pos' : eye_of_time_kills, 'yellow_dot_pos' : yellow_dot_pos, 'green circle' : greencircle_pos, 'charc_minimap_pos' : yellow_dot_pos }
     
     # randomly does an action
-    action = play_one_step(current_state, epsilon)
+    action = play_one_step(np.array(current_state), epsilon)
     
 
-    epsilon = max(1 - step_count / 500, 0.0001)
+    epsilon = max(1 - step_count / 500, 0.01)
     dummy, reward, dummy , dummy = env.step(hashmap)
     
     screenshot, charc_pos, eye_of_time_pos, eye_of_time_kills, memory_monk_pos, memory_monk_kills, yellow_dot_pos, greencircle_pos = yolov8.detection(screenshot) 
     next_state = state_game.state(charc_pos=charc_pos, eye_of_time_pos=eye_of_time_pos,memory_monk_pos=memory_monk_pos, yellow_dot_pos=yellow_dot_pos, green_circle_pos=greencircle_pos)
-    next_state = np.array(next_state)
     
+    #Replay memory    
     replay_memory.append((current_state, action, reward, next_state))
+
 
     print('step_count',step_count)  
     print('current_state:',current_state)
     print('action', action)
     print('reward:',reward)
     print('next_state',next_state)
-
     cv2.imshow('Maplestory', screenshot)
 
+
     if step_count % training_frequency == 0:
+        #print(replay_memory)
         print('AT TRAINING STAGE')
-        optimizer = training_step(batch_size=40,discount_rate=0.95)
-        print('optimizer',optimizer)
+        print('AT TRAINING STAGE')
+        print('AT TRAINING STAGE')
+        print('AT TRAINING STAGE')
+        print('AT TRAINING STAGE')
+        print('AT TRAINING STAGE')
+        print('AT TRAINING STAGE')
+        print('AT TRAINING STAGE')
+        training_step(batch_size=20,discount_rate=0.95)
 
 
     key = cv2.waitKey(1)
