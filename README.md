@@ -30,15 +30,17 @@ Currently, I am implementing YOLOv8 to capture faces of monsters and my characte
 </div> 
 
 <p align="center">
-    <a href="https://www.youtube.com/watch?v=Ys0eVH3Zu00&t=398s&ab_channel=Liang">
-        <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/Animation7.gif" width="450" height="300">
+    <a href="https://www.youtube.com/watch?v=Ys0eVH3Zu00&t=398s&ab_channel=Liang" target="_blank">
+        <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/Animation7.gif" width="450" height="300" alt="Reinforcement Learning with DQN">
         <br>
         <strong>Reinforcement Learning with DQN</strong>
     </a>
-    <br>
+    <br><br>
     Currently, I'm in the final stage of this project. The last part involves collecting specific data from my gameplay and feeding that data into a reinforcement learning algorithm known as DQN (Deep Q Learning). This allows our agent to learn in an environment where it gets rewarded for certain right actions and penalized for certain bad actions.
-    The algorithm has been successful in learning to play games like Breakout, Pong, and Space Invaders at or above human-level performance. I am currently have implemented it to the modern 2D game known as Maplestory. The current training of MapleBot, two issues have been identified: one related to computer vision and the other involving delayed rewards. For instance, if an agent presses 'Q' and defeats a monster, the computer vision delay may result in the reward being attributed to a subsequent right dash action.
+    <br><br>
+    The algorithm has been successful in learning to play games like Breakout, Pong, and Space Invaders at or above human-level performance. I have currently implemented it in the modern 2D game known as Maplestory. During the current training of MapleBot, two issues have been identified: one related to computer vision and the other involving delayed rewards. For instance, if an agent presses 'Q' and defeats a monster, the computer vision delay may result in the reward being attributed to a subsequent right dash action.
 </p>
+
 
 
 
