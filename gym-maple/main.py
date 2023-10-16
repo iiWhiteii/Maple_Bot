@@ -14,21 +14,11 @@ import tensorflow as tf
 from tensorflow import keras
 from collections import deque
 
-
-
-
-
-
-
-
-
-
-
 import time
 import pydirectinput as pdi
 
 
-pretain_weight = "C:\\Users\\liang\\OneDrive\\Desktop\\TestMapleBot\\gym-maple\\position_minimap_detector\\runs\\detect\\train\\weights\\last.pt"
+pretain_weight = "C:\\Users\\liang\\OneDrive\\Desktop\\Maple_Bot\\gym-maple\\position_minimap_detector\\runs\\detect\\train\\weights\\best.pt"
 yolov8 = model(weight_path=pretain_weight)
 wincap = WindowCapture('Maplestory')
 env = gym.make('gym_maple/MapleEnv-v0')
@@ -99,13 +89,10 @@ def perform_action(action):
 
 
 
-
-
-
 # Just need this 
 def play_one_step(state, epsilon):
     action = epsilon_greedy_policy(state, epsilon)  
-    time.sleep(0.50)
+    time.sleep(0.25)
     return action
 
 
@@ -136,8 +123,9 @@ def training_step(batch_size,discount_rate):
         Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
         loss = tf.reduce_mean(loss_fn(target_Q_values, Q_values))   
     grads = tape.gradient(loss, model.trainable_variables)
+   #print('grads:',grads)
     optimizer.apply_gradients(zip(grads, model.trainable_variables))
-    print('optimizer:', optimizer.apply_gradients(zip(grads, model.trainable_variables)))
+    #print('optimizer:', optimizer.apply_gradients(zip(grads, model.trainable_variables)))
     
 
 
@@ -156,39 +144,44 @@ while True:
    
    
     # Current States
-    current_state = state_game.state(charc_pos=charc_pos, eye_of_time_pos=eye_of_time_pos,
-                                          memory_monk_pos=memory_monk_pos, yellow_dot_pos=yellow_dot_pos,
-                                          green_circle_pos=greencircle_pos)
+    #current_state = state_game.state(charc_pos=charc_pos, eye_of_time_pos=eye_of_time_pos,
+    #                                     memory_monk_pos=memory_monk_pos, yellow_dot_pos=yellow_dot_pos,
+    #                                    green_circle_pos=greencircle_pos)
     
-    print('current_state:',current_state)
+    #print('current_state:',current_state)
 
 
     ''' By employing a hashmap in this manner, the environment can provide responses '''
-    hashmap = { 'memory_monk_death_pos' : memory_monk_kills, 'eye_of_time_death_pos' : eye_of_time_kills, 'yellow_dot_pos' : yellow_dot_pos, 'green circle' : greencircle_pos, 'charc_minimap_pos' : yellow_dot_pos }
-    
-    # randomly does an action
-    action = play_one_step(np.array(current_state), epsilon)
+    #hashmap = { 'memory_monk_death_pos' : memory_monk_kills, 'eye_of_time_death_pos' : eye_of_time_kills, 'yellow_dot_pos' : yellow_dot_pos, 'green circle' : greencircle_pos, 'charc_minimap_pos' : yellow_dot_pos }
     
 
-    epsilon = max(1 - step_count / 500, 0.01)
-    dummy, reward, dummy , dummy = env.step(hashmap)
+    # randomly does an action
+    #epsilon = max(1 - step_count / 500, 0.01)
+    #action = play_one_step(np.array(current_state), epsilon)
     
-    screenshot, charc_pos, eye_of_time_pos, eye_of_time_kills, memory_monk_pos, memory_monk_kills, yellow_dot_pos, greencircle_pos = yolov8.detection(screenshot) 
-    next_state = state_game.state(charc_pos=charc_pos, eye_of_time_pos=eye_of_time_pos,memory_monk_pos=memory_monk_pos, yellow_dot_pos=yellow_dot_pos, green_circle_pos=greencircle_pos)
+
+
+    #time.sleep(0.50)
+    #dummy, reward, dummy , dummy = env.step(hashmap)
+    
+   
+
+    #screenshot, charc_pos, eye_of_time_pos, eye_of_time_kills, memory_monk_pos, memory_monk_kills, yellow_dot_pos, greencircle_pos = yolov8.detection(screenshot) 
+    #next_state = state_game.state(charc_pos=charc_pos, eye_of_time_pos=eye_of_time_pos,memory_monk_pos=memory_monk_pos, yellow_dot_pos=yellow_dot_pos, green_circle_pos=greencircle_pos)
     
     #Replay memory    
-    replay_memory.append((current_state, action, reward, next_state))
+    #replay_memory.append((current_state, action, reward, next_state))
 
 
-    print('step_count',step_count)  
-    print('current_state:',current_state)
-    print('action', action)
-    print('reward:',reward)
-    print('next_state',next_state)
+    #print('step_count',step_count)  
+    #print('current_state:',current_state)
+    #print('action', action)
+    #print('reward:',reward)
+    #print('next_state',next_state)
     cv2.imshow('Maplestory', screenshot)
 
 
-    if step_count % training_frequency == 0:
+    '''if step_count % training_frequency == 0:
         #print(replay_memory)
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
@@ -198,7 +191,7 @@ while True:
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
-        training_step(batch_size=20,discount_rate=0.95)
+        training_step(batch_size=20,discount_rate=0.95)'''
 
 
     key = cv2.waitKey(1)
