@@ -29,13 +29,20 @@ Currently, I am implementing YOLOv8 to capture faces of monsters and my characte
   <p>In the present implementation of YOLOv8, there are anticipated changes in the future. Instead of identifying the entire body of an NPC, the system will be configured to specifically detect their faces.</p>
 </div> 
 
-<p align="center">
-    <img src="https://github.com/Whiteii/Maple_Bot/blob/main/Images/1_wfKvMsVMkUhEGz1YH7kCQA.png" width="450" height="300">
-    <br>
-    <strong>Reinforcement Learning with DQN</strong>
-    <br>
-    Currently I'm at the final part of this project. The final part involve with collecting specific data from me playing the game then feed those data into reinforcement learning algorithm, known as DQN (Deep Q Learning), allows our agent to learn in an environment where the agent gets rewarded for certain right actions and penalized for certain bad actions.
-    The algorithm learned to play games like Breakout, Pong, and Space Invaders at or above human-level performance. Currently, I'm testing this out with the hope of working on modern 2d game known as Maplestory
+<div style="float: right; margin-left: 2%;">
+    <a href="https://www.youtube.com/watch?v=Ys0eVH3Zu00&t=398s&ab_channel=Liang">
+        <img src="https://raw.githubusercontent.com/Whiteii/Maple_Bot/main/Images/Animation7.gif" alt="Bottom Image" width="600"/>
+    </a>
+</div>
+
+<p>
+    Currently, I'm in the final stage of this project. The last part involves collecting specific data from my gameplay and feeding that data into a reinforcement learning algorithm known as DQN (Deep Q Learning). This allows our agent to learn in an environment where it gets rewarded for certain right actions and penalized for certain bad actions.
+    <br><br>
+    The algorithm has been successful in learning to play games like Breakout, Pong, and Space Invaders at or above human-level performance. I have currently implemented it in the modern 2D game known as Maplestory. During the current training of MapleBot, two issues have been identified: one related to computer vision and the other involving delayed rewards. For instance, if an agent presses 'Q' and defeats a monster, the computer vision delay may result in the reward being attributed to a subsequent right dash action.
 </p>
+
+
+
+
 
 
