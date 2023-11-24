@@ -123,9 +123,7 @@ def training_step(batch_size,discount_rate):
         Q_values = tf.reduce_sum(all_Q_values * mask, axis=1, keepdims=True)
         loss = tf.reduce_mean(loss_fn(target_Q_values, Q_values))   
     grads = tape.gradient(loss, model.trainable_variables)
-   #print('grads:',grads)
     optimizer.apply_gradients(zip(grads, model.trainable_variables))
-    #print('optimizer:', optimizer.apply_gradients(zip(grads, model.trainable_variables)))
     
 
 
@@ -140,15 +138,22 @@ while True:
     step_count += 1
     # Get an updated image of the game
     screenshot = wincap.get_screenshot()
-    screenshot, charc_pos, eye_of_time_pos, eye_of_time_kills, memory_monk_pos, memory_monk_kills, yellow_dot_pos, greencircle_pos = yolov8.detection(screenshot)
-   
+    '''"Class 0: Player Coordinates")
+    "Class 1: Eye of Time Coordinates")
+    "Class 2: Eye of Time Death Coordinates")
+    "Class 3: Memory Monk Coordinates")
+    "Class 4: Memory Monk Death Coordinates")
+    "Class 5: Mini Map Character Coordinates")
+    "Class 6: Green Circle on Mini Map Coordinates")'''
+
+
+    screenshot, class_0, class_1, class_2, class_3, class_4, class_5, class_6 = yolov8.detection(screenshot)
+
+
    
     # Current States
-    #current_state = state_game.state(charc_pos=charc_pos, eye_of_time_pos=eye_of_time_pos,
-    #                                     memory_monk_pos=memory_monk_pos, yellow_dot_pos=yellow_dot_pos,
-    #                                    green_circle_pos=greencircle_pos)
-    
-    #print('current_state:',current_state)
+    current_state = state_game.state(Player_Coordinates=class_0,Eye_of_Time_Coordinates=class_1, Memory_Monk_Coordinates=class_3,Minimap_Charc_Coordinates=class_5, GC_MINIMAP_Coordinates=class_6)
+    print('current_state:',current_state)
 
 
     ''' By employing a hashmap in this manner, the environment can provide responses '''

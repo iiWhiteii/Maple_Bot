@@ -13,26 +13,38 @@ class state:
         self.State = np.array([])
         
 
-    def state(self,charc_pos,eye_of_time_pos,memory_monk_pos,yellow_dot_pos, green_circle_pos):
-        self.green_circle_pos = green_circle_pos
+    def state(self,Player_Coordinates,Eye_of_Time_Coordinates, Memory_Monk_Coordinates,Minimap_Charc_Coordinates, GC_MINIMAP_Coordinates):
+        self.GC_MINIMAP_Coordinates = GC_MINIMAP_Coordinates
+        self.Minimap_Charc_Coordinates = Minimap_Charc_Coordinates
+        self.Player_Coordinates = Player_Coordinates
+        self.NPC_Coordinates = Eye_of_Time_Coordinates + Memory_Monk_Coordinates
+
+
+        
+        
         self.all_npc_pos = []
-        self.yellow_dot_pos = yellow_dot_pos
-        self.charc_pos = charc_pos
-        self.npc_pos = eye_of_time_pos + memory_monk_pos
+        
+        
+        
         threshold_distance = 450 
+        
+        
+        #These variables represent the state for the agent to be trained using DQN
+        #Indicate the number of non-player characters (NPCs) in different directions
+        # from the agent's perspective.
         self.most_npc_on_top = 0
         self.most_npc_on_bottom = 0
         self.most_npc_on_right = 0
         self.most_npc_on_left = 0
+        self.min_npc_threshold  = 1
 
 
-        min_npc_threshold  = 2
-
-
-        if len(self.charc_pos) > 0: 
-            for vector in self.npc_pos:
-                x1 = self.charc_pos[0][0]
-                y1 = self.charc_pos[0][1]
+        if len(self.Player_Coordinates) > 0: # if computer vision detect our character exists  
+            for vector in self.NPC_Coordinates:
+                # Represent Player_Coordinates
+                x1 = self.Player_Coordinates[0][0]
+                y1 = self.Player_Coordinates[0][1]
+                # Represent NPC_Coordinates 
                 x2 = vector[0]
                 y2 = vector[1]
                 magnitude = math.sqrt((x2-x1)**2 + (y2-y1)**2)
@@ -41,36 +53,42 @@ class state:
                     if y2 < y1 and y2 <= 80 and y2>=60:
                         self.most_npc_on_top += 1
                         
-                    elif y1 > y2 and y2 >= 490: 
+                    if y1 > y2 and y2 >= 490: 
                         self.most_npc_on_bottom += 1
                            
                     if x2 > x1 and y2 > y1 - 120:
                         self.most_npc_on_right += 1 
                        
-                    elif x2 < x1 and y2 > y1 - 120:
+                    if x2 < x1 and y2 > y1 - 120:
                         self.most_npc_on_left += 1
                     
-        min_npc_threshold = max(self.most_npc_on_top,self.most_npc_on_bottom,self.most_npc_on_left,self.most_npc_on_right)   
+       
 
-        if len(self.yellow_dot_pos) > 0:
-            self.State = np.array([-1, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]])
+        if len(self.Minimap_Charc_Coordinates) > 0: 
+            print(len(self.Minimap_Charc_Coordinates))
+            self.State = np.array([-1, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]])
 
-        if len(self.yellow_dot_pos) > 0 and min_npc_threshold != 0 : 
+            if self.most_npc_on_top >= self.min_npc_threshold :
+                self.State = np.array(([0, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]]))
+                print('self.state:',self.State)
 
-            if self.most_npc_on_top >= min_npc_threshold:
-                self.State = np.array(([0, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]))
+            elif self.most_npc_on_bottom >= self.min_npc_threshold :
+                self.State = np.array([1, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]])
+                print('self.state:',self.State)
 
-            if self.most_npc_on_bottom >= min_npc_threshold:
-                self.State = np.array([1, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]])
+            elif self.most_npc_on_right >= self.min_npc_threshold:
+                self.State = np.array([2, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]])
+                print('self.state:',self.State)
 
-            if self.most_npc_on_right >= min_npc_threshold:
-                self.State = np.array([2, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]])
+            elif self.most_npc_on_left >= self.min_npc_threshold:
+                self.State = np.array(([3, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]]))
+                print('self.state:',self.State)
 
-            if self.most_npc_on_left >= min_npc_threshold:
-                self.State = np.array(([3, self.yellow_dot_pos[0][0], yellow_dot_pos[0][1]]))
-                
 
-        return np.array(self.State)
+
+
+
+        return self.State
             
 
 

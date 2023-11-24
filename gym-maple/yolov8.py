@@ -29,7 +29,6 @@ class model:
         self.memory_monk_coordinates = []  
         self.memory_monk_death_coordinates = [] 
         self.yellow_dot_pos = []
-
         self.label_counter = {}
 
 
@@ -115,9 +114,7 @@ class model:
         return self.screenshot, self.player_coordinates,self.eye_of_time_pos, self.eye_of_time_death_pos, self.memory_monk_coordinates,self.memory_monk_death_coordinates,self.yellow_dot_pos, self.green_circle_coordinates
 
     
-    # I want to detect object position etc
-
-    #def
+  
 
 
 
