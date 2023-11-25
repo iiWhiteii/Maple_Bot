@@ -21,37 +21,108 @@ class MapleEnv(gym.Env):
         self.action_space = spaces.Discrete(6)  
 
 
-    #reward = 0
-    def step(self, info_capture): 
-        self.info_capture = info_capture
+    
+    def step(self, data): 
+       
+       
+        self.data  = data 
+
+
+
+        ''' this is all we need'''
 
         reward = 0
+        
 
-        print(self.info_capture)
+        '''If there are more NPCs on the right and the agent pressed the right + Q key,
+           reward the agent with a score of 2.'''
 
-        if len(self.info_capture['eye_of_time_death_pos']) > 0: 
-            reward =  len(self.info_capture['eye_of_time_death_pos']) * 2
+        if self.data['most_npc_density'] == 2 and self.data['action'] == 4 or self.data['action'] == 3:
+            reward = 10
+            
+            
+        elif self.data['most_npc_density'] == 2 and self.data['action'] != 4 or self.data['action'] != 3:
+            reward = -5
             
 
-        elif len(self.info_capture['memory_monk_death_pos']) > 0: 
-            reward = len(self.info_capture['memory_monk_death_pos']) * 2
-            
-        else: 
-            self.green_circle_pos = self.info_capture['green circle']
-            self.charc_minimap_pos = self.info_capture['charc_minimap_pos']
-            if len(self.charc_minimap_pos) >  0:
-                x1 = self.charc_minimap_pos[0][0]
-                y1 = self.charc_minimap_pos[0][1]
-                for center in self.green_circle_pos:
-                    x2,y2 = center
-                    distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-                    if distance <= 19:
-                        reward = 0.50
-                    else:
-                        reward = -1
-                    
+        ''' If there are more NPCs on the left and the agent pressed the left + Q key,
+           reward the agent with a score of 2.'''
 
+        if self.data['most_npc_density'] == 3 and self.data['action'] == 5 or self.data['action'] == 3:
+            reward = 10
+        elif self.data['most_npc_density'] == 3 and self.data['action'] != 5 or self.data['action'] != 3:
+            reward = -5
+
+        ''' If there are more NPCs on the Top and the agent pressed the Up Arrow + W key,
+           reward the agent with a score of 2.'''
+        if self.data['most_npc_density'] == 0 and self.data['action'] == 0 or self.data['action'] == 3:
+            reward = 10
+        elif self.data['most_npc_density'] == 0 and self.data['action'] != 0 or self.data['action'] != 3:
+            reward = -5
+
+        #''' If there are more NPCs are the found then .'''
+        
+        #print('Minimap_Charc_X_Coordinates : ', len(self.data['Minimap_Charc_X_Coordinates']))
+        #NO NPC FOUND
+        ''' if self.data['most_npc_density'] == -1 and len(self.data['Minimap_Charc_X_Coordinates']) > 0:
+           if self.data['action'] == 0 or self.data['action'] == 1 or self.data['action'] == 2 or self.data['action'] == 3:
+                reward = 2
+           elif self.data['action'] != 0 or self.data['action'] != 1 or self.data['action'] != 2 or self.data['action'] != 3:
+                reward = -2
+            
+           
+            print('Pass')
+            self.x1 = self.data['Minimap_Charc_X_Coordinates'][0]
+            self.y1 = self.data['Minimap_Charc_Y_Coordinates'][0]
+            for center in self.data['Green Circle on Mini Map Coordinates']:
+                self.x2, self.y2 = center
+                distance = math.sqrt(( self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)
     
+              #  Point A: (35, 80)
+              #  Point B: (75, 80)
+              #  Point C: (115, 80)
+              #  Point D: (35, 125)
+              #  Point E: (75, 125)
+              #  Point F: (115, 125)
+                
+
+                #Reward for point A
+                if distance <= 19 and self.x2 == 35 and self.y2 == 80 and (self.data['action'] == 3 or self.data['action'] == 1):
+                    reward = 1 
+                elif distance <= 19 and self.x2 == 35 and self.y2 == 80 and (self.data['action'] != 3 or self.data['action'] != 1):
+                    reward = -2
+                
+                # Reward for point B
+                if distance <= 19 and self.x2 == 75 and self.y2 == 80 and (self.data['action'] == 0 or self.data['action'] == 1):
+                    reward = 1 
+                elif distance <= 19 and self.x2 == 75 and self.y2 == 80 and (self.data['action'] != 0 or self.data['action'] != 1):
+                    reward = -2
+
+                # Reward for point C
+                if distance <= 19 and self.x2 == 115 and self.y2 == 80 and (self.data['action'] == 0 or self.data['action'] == 3 or self.data['action'] == 2):
+                    reward = 1 
+                elif distance <= 19 and self.x2 == 115 and self.y2 == 80 and (self.data['action'] != 0 or self.data['action'] != 3) or self.data['action'] != 2:
+                    reward = -2
+
+
+                #Reward for point D
+                if distance <= 19 and self.x2 == 35 and self.y2 == 125 and (self.data['action'] == 2 or self.data['action'] == 1):
+                    reward = 1 
+                elif distance <= 19 and self.x2 == 35 and self.y2 == 125 and (self.data['action'] != 2 or self.data['action'] != 1):
+                    reward = -2
+                
+                # Reward for point E
+                if distance <= 19 and self.x2 == 75 and self.y2 == 125 and (self.data['action'] == 0 or self.data['action'] == 1):
+                    reward = 1 
+                elif distance <= 19 and self.x2 == 75 and self.y2 == 125 and (self.data['action'] != 0 or self.data['action'] != 1):
+                    reward = -2
+
+                # Reward for point F
+                if distance <= 19 and self.x2 == 115 and self.y2 == 125 and (self.data['action'] == 0 or self.data['action'] == 2):
+                    reward = 1 
+                elif distance <= 19 and self.x2 == 115 and self.y2 == 125 and (self.data['action'] != 0 or self.data['action'] != 2):
+                    reward = -2'''
+           
         obs = {
         "Minimap_Character_Position": None,
         "NPC_nearby": None,
@@ -67,8 +138,7 @@ class MapleEnv(gym.Env):
         
         
     
-       # if self.info_capture['magnitude'] < 250:
-         #   reward = 0
+     
             
 
         

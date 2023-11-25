@@ -16,6 +16,7 @@ class state:
     def state(self,Player_Coordinates,Eye_of_Time_Coordinates, Memory_Monk_Coordinates,Minimap_Charc_Coordinates, GC_MINIMAP_Coordinates):
         self.GC_MINIMAP_Coordinates = GC_MINIMAP_Coordinates
         self.Minimap_Charc_Coordinates = Minimap_Charc_Coordinates
+        print(self.Minimap_Charc_Coordinates)
         self.Player_Coordinates = Player_Coordinates
         self.NPC_Coordinates = Eye_of_Time_Coordinates + Memory_Monk_Coordinates
 
@@ -26,7 +27,7 @@ class state:
         
         
         
-        threshold_distance = 450 
+        threshold_distance = 800
         
         
         #These variables represent the state for the agent to be trained using DQN
@@ -66,23 +67,21 @@ class state:
 
         if len(self.Minimap_Charc_Coordinates) > 0: 
             print(len(self.Minimap_Charc_Coordinates))
+            ''' -1: No NPCs around ''' 
             self.State = np.array([-1, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]])
 
             if self.most_npc_on_top >= self.min_npc_threshold :
+                #0: Most NPCs on top
                 self.State = np.array(([0, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]]))
-                print('self.state:',self.State)
-
+                #1: Most NPCs on bottom
             elif self.most_npc_on_bottom >= self.min_npc_threshold :
-                self.State = np.array([1, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]])
-                print('self.state:',self.State)
-
+                self.State = np.array(([1, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]]))
+                #2: Most NPCs on right
             elif self.most_npc_on_right >= self.min_npc_threshold:
-                self.State = np.array([2, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]])
-                print('self.state:',self.State)
-
+                self.State = np.array(([2, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]]))
+                #3: Most NPCs on left
             elif self.most_npc_on_left >= self.min_npc_threshold:
                 self.State = np.array(([3, self.Minimap_Charc_Coordinates[0][0], Minimap_Charc_Coordinates[0][1]]))
-                print('self.state:',self.State)
 
 
 

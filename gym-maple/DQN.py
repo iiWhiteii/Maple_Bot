@@ -16,9 +16,6 @@ def special_press_and_release(key):
     pdi.keyDown(key)
     pdi.keyUp(key)
 
-
-
-
 def perform_action(action):
     if action == 0:
         press_and_release("left")
@@ -29,11 +26,10 @@ def perform_action(action):
         press_and_release("alt")
         press_and_release("alt")
     elif action == 2:
-        special_press_and_release("up")
         special_press_and_release("w")
+        special_press_and_release("alt")
     elif action == 3:
-        special_press_and_release("down")
-        special_press_and_release("w")
+        special_press_and_release("1")
     elif action == 4:
         press_and_release("right")
         press_and_release("q")
@@ -43,27 +39,13 @@ def perform_action(action):
 
     return action
 
-
-
-
-
-
-
-
-
-
 class DQN:
-    def __init__(self, reply_memory, input_shape, n_outputs,epsilon):
-        self.epsilon = epsilon
+    def __init__(self, input_shape, n_outputs):
+       
         self.input_shape = input_shape
         self.n_outputs = n_outputs        
         self.model = self.build_model()
         
-
-        self.reply_memory = reply_memory # THINKING OF HAVING REPLY_MEMORY ON SERPARATE FILES
-
-
-
 
         self.optimizer = keras.optimizers.Adam(lr=1e-3)
         self.loss_fn = keras.losses.mean_squared_error
@@ -71,14 +53,20 @@ class DQN:
 
     def build_model(self):
         model = keras.models.Sequential([
-            keras.layers.Dense(128, activation='elu', input_shape = self.input_shape), 
-            keras.layers.Dense(64,activation='elu'),
-            keras.layers.Dense(32, activation='elu'),
-            keras.layers.Dense(6)])
+            keras.layers.Dense(100, activation='relu', input_shape = self.input_shape), 
+            keras.layers.Dense(64,activation='relu'),
+            keras.layers.Dense(34, activation='relu'),
+            keras.layers.Dense(17, activation='relu'),
+            keras.layers.Dense(self.n_outputs)])
         return model 
     
 
-    def epsilon_greedy_policy(self,state):
+    def model_summary(self):
+        return self.model.summary()
+    
+
+    def epsilon_greedy_policy(self,state,epsilon):
+        self.epsilon = epsilon
         if np.random.rand() < self.epsilon:
             self.random_action = np.random.randint(6)
             perform_action(self.random_action)
@@ -92,15 +80,20 @@ class DQN:
         
 
 
-    def training_step(self,batch_size,discount_rate,sample_experiences):
+    def training_step(self,discount_rate,sample_experiences):
         '''  Essential Part For Agent Learning    '''
         
-        self.current_states, self.actions, self.rewards, self.next_states = sample_experiences(batch_size)
+        self.current_states, self.actions, self.rewards, self.next_states = sample_experiences
+
         self.actions = np.array(self.actions)
         self.rewards = np.array(self.rewards)
         self.next_Q_values = self.model.predict(self.next_states)
         self.max_Q_values = np.max(self.next_Q_values,axis=1)
-        self.target_Q_values = self.rewards + (discount_rate * self.next_Q_values )
+
+        self.target_Q_values = self.rewards + (discount_rate * self.max_Q_values)
+
+
+
         self.mask = tf.one_hot(self.actions, 6)
         
         
