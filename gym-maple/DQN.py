@@ -7,6 +7,7 @@ import time
 import pydirectinput as pdi
 
 
+
 def press_and_release(key, duration=0.1):
     pdi.keyDown(key)
     time.sleep(duration)
@@ -26,44 +27,70 @@ def perform_action(action):
         press_and_release("alt")
         press_and_release("alt")
     elif action == 2:
-        special_press_and_release("w")
-        special_press_and_release("alt")
+        pdi.keyDown("down")
+        press_and_release("alt")
+        pdi.keyUp("down")
     elif action == 3:
         special_press_and_release("1")
     elif action == 4:
         press_and_release("right")
         press_and_release("q")
+        press_and_release("2")
     elif action == 5:
         press_and_release("left")
         press_and_release("q")
-
+        press_and_release("2")
+        
     return action
 
 class DQN:
     def __init__(self, input_shape, n_outputs):
        
         self.input_shape = input_shape
-        self.n_outputs = n_outputs        
+        self.n_outputs = n_outputs   
+
         self.model = self.build_model()
-        
+        self.target_network = self.build_target_network() 
+
+
+
+        #self.optimizer = keras.optimizers.SGD(lr=1e-4)
 
         self.optimizer = keras.optimizers.Adam(lr=1e-3)
         self.loss_fn = keras.losses.mean_squared_error
+        #self.loss_fn2 = keras.losses.sparse_categorical_crossentropy
 
 
     def build_model(self):
         model = keras.models.Sequential([
-            keras.layers.Dense(100, activation='relu', input_shape = self.input_shape), 
+            keras.layers.Dense(126, activation='relu', input_shape = self.input_shape), 
             keras.layers.Dense(64,activation='relu'),
-            keras.layers.Dense(34, activation='relu'),
-            keras.layers.Dense(17, activation='relu'),
+            keras.layers.Dense(64, activation='relu'),
+            keras.layers.Dense(32, activation='relu'),
             keras.layers.Dense(self.n_outputs)])
         return model 
+    
+
+    def build_target_network(self): 
+        target_network = keras.models.Sequential([
+            keras.layers.Dense(126, activation='relu', input_shape = self.input_shape), 
+            keras.layers.Dense(64,activation='relu'),
+            keras.layers.Dense(64, activation='relu'),
+            keras.layers.Dense(32, activation='relu'),
+            keras.layers.Dense(self.n_outputs)])
+        return target_network 
+
     
 
     def model_summary(self):
         return self.model.summary()
     
+
+    def update_target_network(self):
+        self.target_network.set_weights(self.model.get_weights())
+        return self.target_network.set_weights(self.model.get_weights())
+    
+
 
     def epsilon_greedy_policy(self,state,epsilon):
         self.epsilon = epsilon
@@ -73,25 +100,41 @@ class DQN:
             return self.random_action
         
         else:
-            self.Q_values = self.model.predict(state[np.newaxis])
-            self.best_action = np.argmax(self.Q_values[0])
-            perform_action(self.best_action)
-            return self.best_action
+            if np.random.rand() < 0.3:
+                # Use the target network for exploration (optional)
+                self.Q_values = self.target_network.predict(state[np.newaxis])
+                self.best_action = np.argmax(self.Q_values[0])
+                perform_action(self.best_action)
+            else:
+                self.Q_values = self.model.predict(state[np.newaxis])
+                self.best_action = np.argmax(self.Q_values[0])
+                perform_action(self.best_action)
+
+                return self.best_action
         
 
 
     def training_step(self,discount_rate,sample_experiences):
         '''  Essential Part For Agent Learning    '''
-        
-        self.current_states, self.actions, self.rewards, self.next_states = sample_experiences
 
+        self.current_states, self.actions, self.rewards, self.next_states = sample_experiences
         self.actions = np.array(self.actions)
         self.rewards = np.array(self.rewards)
-        self.next_Q_values = self.model.predict(self.next_states)
-        self.max_Q_values = np.max(self.next_Q_values,axis=1)
+        
+        
+        
+        #self.next_Q_values = self.model.predict(self.next_states)
+        #self.max_Q_values = np.max(self.next_Q_values,axis=1)
+        #self.target_Q_values = self.rewards + (discount_rate * self.max_Q_values)
 
-        self.target_Q_values = self.rewards + (discount_rate * self.max_Q_values)
+        ''' Testing out Target Q Network'''
+        self.selected_actions = np.argmax(self.model.predict(self.next_states), axis=1)
+        self.target_Q_values = self.target_network.predict(self.next_states)
+        self.target_Q_values = self.target_Q_values[np.arange(self.target_Q_values.shape[0]), self.selected_actions]
 
+
+
+        self.target_Q_values = self.rewards + (discount_rate * self.target_Q_values)
 
 
         self.mask = tf.one_hot(self.actions, 6)
@@ -104,6 +147,10 @@ class DQN:
 
         self.grads = tape.gradient(self.loss, self.model.trainable_variables)
         self.optimizer.apply_gradients(zip(self.grads, self.model.trainable_variables))
+
+        return self.loss
+
+
     
 
 

@@ -20,7 +20,7 @@ from reply_memory import ReplayMemory
 
 
 
-pretain_weight = "C:\\Users\\liang\\OneDrive\\Desktop\\Maple_Bot\\gym-maple\\position_minimap_detector\\runs\\detect\\train\\weights\\best.pt"
+pretain_weight = "C:\\Users\\liang\\OneDrive\\Desktop\\Maple_Bot\\gym-maple\\weights\\runs\\detect\\train\\weights\\best.pt"
 yolov8 = model(weight_path=pretain_weight)
 wincap = WindowCapture('Maplestory')
 env = gym.make('gym_maple/MapleEnv-v0')
@@ -44,14 +44,14 @@ rewards = []
 
 epsilon = 0.01
 step_count = 0
-training_frequency = 1
+training_frequency = 10
 
 
 
 
 
 ''' Let Construct Reply Memory '''
-Agent_Memory = ReplayMemory(max_size=10000)
+Agent_Memory = ReplayMemory(max_size=9000)
 
 
 
@@ -59,7 +59,7 @@ Agent_Memory = ReplayMemory(max_size=10000)
 
 
 '''Construct Neural Network For DQN '''
-dqn_agent = DQN(input_shape=(3,),n_outputs=6)
+dqn_agent = DQN(input_shape=(4,),n_outputs=6)
 print("Neural Network Summary:",dqn_agent.model_summary())
 
 
@@ -67,14 +67,19 @@ print("Neural Network Summary:",dqn_agent.model_summary())
 # Just need this 
 def play_one_step(state, epsilon):
     action = dqn_agent.epsilon_greedy_policy(state,epsilon)
-    time.sleep(0.25)
+    time.sleep(0.10)
     return action
 
 
 
 
+losses = []
+steps = []
+import matplotlib.pyplot as plt
+
+
 while True:
-    step_count += 0.50
+    step_count += 1
     # Get an updated image of the game
     screenshot = wincap.get_screenshot()
     '''"Class 0: Player Coordinates")
@@ -92,13 +97,12 @@ while True:
    
     # Current States
     current_state = state_game.state(Player_Coordinates=class_0,Eye_of_Time_Coordinates=class_1, Memory_Monk_Coordinates=class_3,Minimap_Charc_Coordinates=class_5, GC_MINIMAP_Coordinates=class_6)
+    
 
     # randomly does an action
-    epsilon = max(1 - step_count / 500, 0.01)
-    
-    action = play_one_step(np.array(current_state), epsilon)
+    epsilon = max(1 - step_count / 3000, 0.01)
+    action = play_one_step(np.array(current_state[:4]), epsilon)
 
-    print('action : ', action )
 
 
     ''' By employing a hashmap in this manner, the environment can provide responses '''
@@ -106,13 +110,16 @@ while True:
     print('env response :',environment_response_data)
     dummy, reward, dummy , dummy = env.step(environment_response_data)
     
-    #time.sleep(0.55)
+    time.sleep(0.25)
 
     screenshot, class_0, class_1, class_2, class_3, class_4, class_5, class_6 = yolov8.detection(screenshot)
     next_state = state_game.state(Player_Coordinates=class_0,Eye_of_Time_Coordinates=class_1, Memory_Monk_Coordinates=class_3,Minimap_Charc_Coordinates=class_5, GC_MINIMAP_Coordinates=class_6)
     
     #Replay memory    
-    Agent_Memory.add_experience((current_state, action, reward, next_state))
+    Agent_Memory.add_experience((current_state[:4], action, reward, next_state[:4]))
+
+
+
 
 
     print('step_count',step_count)  
@@ -133,11 +140,43 @@ while True:
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
-        dqn_agent.training_step(discount_rate=0.95, sample_experiences=Agent_Memory.sample_experiences(batch_size=1))
+        loss = dqn_agent.training_step(discount_rate=0.99, sample_experiences=Agent_Memory.sample_experiences(batch_size=5))
+        
+        print('loss: ', loss)
+        losses.append(loss)
+        print('losses : ',losses)
+        steps.append(step_count)
+        print('steps : ',steps)
+        
+        
+        ''' Transfer Q Network Weight To Target Q Network'''
+        dqn_agent.update_target_network()
+       
+        # After the training loop, finalize the TensorBoard callback
+        #dqn_agent.tensorboard_callback.on_train_end(None)
+
+
+
+
 
 
     key = cv2.waitKey(1)
     if key == ord('q'):
         cv2.destroyAllWindows()
+
+        # Plotting after pressing 'q'
+        plt.plot(steps, losses)
+        plt.title('Loss Over Steps')
+        plt.xlabel('Training Steps')
+        plt.ylabel('Loss')
+        plt.show()
+
+
+
+
+
+
+
+
         break
     print('Done.')
