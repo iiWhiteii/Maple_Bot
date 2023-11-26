@@ -44,7 +44,7 @@ rewards = []
 
 epsilon = 0.01
 step_count = 0
-training_frequency = 10
+training_frequency = 60
 
 
 
@@ -140,7 +140,7 @@ while True:
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
-        loss = dqn_agent.training_step(discount_rate=0.99, sample_experiences=Agent_Memory.sample_experiences(batch_size=5))
+        loss = dqn_agent.training_step(discount_rate=0.99, sample_experiences=Agent_Memory.sample_experiences(batch_size=50))
         
         print('loss: ', loss)
         losses.append(loss)

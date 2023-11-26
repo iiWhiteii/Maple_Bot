@@ -100,12 +100,13 @@ class DQN:
             return self.random_action
         
         else:
-            if np.random.rand() < 0.3:
+            #if np.random.rand() < 0.3:
+                ''' sometimes the action don't get detected'''
                 # Use the target network for exploration (optional)
-                self.Q_values = self.target_network.predict(state[np.newaxis])
-                self.best_action = np.argmax(self.Q_values[0])
-                perform_action(self.best_action)
-            else:
+              #  self.Q_values = self.target_network.predict(state[np.newaxis])
+               # self.best_action = np.argmax(self.Q_values[0])
+              #  perform_action(self.best_action)
+            #if
                 self.Q_values = self.model.predict(state[np.newaxis])
                 self.best_action = np.argmax(self.Q_values[0])
                 perform_action(self.best_action)

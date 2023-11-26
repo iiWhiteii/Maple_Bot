@@ -80,7 +80,7 @@ class MapleEnv(gym.Env):
                     print('reward for being inside POINT A',reward)
                     break
                 elif distance <= 19 and self.x2 == 35  and self.y2 == 80 and (self.data['action'] != 1 or self.data['action'] != 2):
-                    reward = -2
+                    reward = -4
                     break 
 
                 ''' Point B '''
@@ -89,7 +89,7 @@ class MapleEnv(gym.Env):
                     print('reward for being inside POINT B',reward)
                     break
                 elif distance <= 19 and self.x2 == 115  and self.y2 == 80 and (self.data['action'] != 0 or self.data['action'] != 2) :
-                    reward = -2
+                    reward = -4
                     print('reward for being inside POINT B',reward)
                     break
                     
@@ -99,7 +99,7 @@ class MapleEnv(gym.Env):
                     print('reward for being inside POINT C',reward)
                     break
                 elif distance <= 19 and self.x2 == 35 and self.y2 == 125 and (self.data['action'] != 1 or self.data['action'] != 3) :
-                    reward = -2
+                    reward = -4
                     print('reward for being inside POINT C',reward)
                     break
                     
@@ -109,7 +109,7 @@ class MapleEnv(gym.Env):
                     print('reward for being inside POINT D',reward)
                     break
                 elif  distance <= 19 and self.x2 == 115 and  self.y2 == 125 and (self.data['action'] != 0 or self.data['action'] != 3) :
-                    reward = -2
+                    reward = -4
                     print('reward for being inside POINT D',reward)
                     break
 
