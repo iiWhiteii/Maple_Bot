@@ -3,6 +3,9 @@ from gym import spaces
 from time import time
 import numpy as np
 import math
+from collections import deque
+
+
 
 
 class MapleEnv(gym.Env):
@@ -41,7 +44,7 @@ class MapleEnv(gym.Env):
             reward = 3
             
         elif self.data['most_npc_density'] == 2 and (self.data['action'] != 4):
-            reward = -1
+            reward = -3
             
         ''' If there are more NPCs on the left and the agent pressed the left + Q key,
            reward the agent with a score of 2.'''
@@ -49,7 +52,15 @@ class MapleEnv(gym.Env):
         if self.data['most_npc_density'] == 3 and (self.data['action'] == 5):
             reward = 3
         elif self.data['most_npc_density'] == 3 and (self.data['action'] != 5):
-            reward = -1
+            reward = -3
+
+
+        if self.data['most_npc_density'] == 0 and (self.data['action'] == 5):
+            reward = 3
+        elif self.data['most_npc_density'] == 0 and (self.data['action'] != 5):
+            reward = -3    
+
+     
 
        # ''' If there are more NPCs on the Top and the agent pressed the Up Arrow + W key,
         #   reward the agent with a score of 2.'''
@@ -65,7 +76,7 @@ class MapleEnv(gym.Env):
 
         #self.entered_circle = False
         
-        if self.data['most_npc_density'] == -1 and len(self.data['Minimap_Charc_X_Coordinates']) > 0:
+        '''if self.data['most_npc_density'] == -1 and len(self.data['Minimap_Charc_X_Coordinates']) > 0:
             self.x1 = self.data['Minimap_Charc_X_Coordinates'][0]
             self.y1 = self.data['Minimap_Charc_Y_Coordinates'][0]
             self.entered_circle = False
@@ -74,16 +85,17 @@ class MapleEnv(gym.Env):
                 distance = math.sqrt(( self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)
                 print('distance :', distance)
 
-                ''' Point A '''
+                # Point A 
                 if distance <= 19 and self.x2 == 35  and self.y2 == 80 and (self.data['action'] == 1 or self.data['action'] == 2):
                     reward = 1
                     print('reward for being inside POINT A',reward)
                     break
+
                 elif distance <= 19 and self.x2 == 35  and self.y2 == 80 and (self.data['action'] != 1 or self.data['action'] != 2):
-                    reward = -4
+                    reward = 4
                     break 
 
-                ''' Point B '''
+                #Point B 
                 if distance <= 19 and self.x2 == 115  and self.y2 == 80 and (self.data['action'] == 0 or self.data['action'] == 2) :
                     reward = 1
                     print('reward for being inside POINT B',reward)
@@ -93,7 +105,7 @@ class MapleEnv(gym.Env):
                     print('reward for being inside POINT B',reward)
                     break
                     
-                ''' Point C '''
+                # Point C 
                 if distance <= 19 and self.x2 == 35 and self.y2 == 125 and (self.data['action'] == 1 or self.data['action'] == 3):
                     reward = 1
                     print('reward for being inside POINT C',reward)
@@ -103,7 +115,7 @@ class MapleEnv(gym.Env):
                     print('reward for being inside POINT C',reward)
                     break
                     
-                ''' Point D '''
+                # Point D 
                 if  distance <= 19 and self.x2 == 115 and self.y2 == 125 and (self.data['action'] == 0 or self.data['action'] == 3):
                     reward = 1
                     print('reward for being inside POINT D',reward)
@@ -111,7 +123,7 @@ class MapleEnv(gym.Env):
                 elif  distance <= 19 and self.x2 == 115 and  self.y2 == 125 and (self.data['action'] != 0 or self.data['action'] != 3) :
                     reward = -4
                     print('reward for being inside POINT D',reward)
-                    break
+                    break'''
 
 
 
@@ -130,19 +142,123 @@ class MapleEnv(gym.Env):
         
         
         
-        ''' if self.data['most_npc_density'] == -1 and len(self.data['Minimap_Charc_X_Coordinates']) > 0:
-           if self.data['action'] == 0 or self.data['action'] == 1 or self.data['action'] == 2 or self.data['action'] == 3:
-                reward = 2
-           elif self.data['action'] != 0 or self.data['action'] != 1 or self.data['action'] != 2 or self.data['action'] != 3:
-                reward = -2
+        if self.data['most_npc_density'] == -1 and len(self.data['Minimap_Charc_X_Coordinates']) > 0:
+            for center in self.data['Green Circle on Mini Map Coordinates']:
+                #print('center:',center)
+                self.x2, self.y2 = center
+                self.x1 = self.data['Minimap_Charc_X_Coordinates'][0]
+                self.y1 = self.data['Minimap_Charc_Y_Coordinates'][0]
+                distance = math.sqrt(( self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)
+                
+
+                if distance <= 12 and self.x2 == 135 and self.y2 == 72 and (self.data['action'] == 0 or self.data['action'] == 2):
+                    reward = 3
+                elif distance <= 12 and self.x2 == 135 and self.y2 == 72 and (self.data['action'] != 0 or self.data['action'] != 2):
+                    reward = -3 
+
+                if distance <= 12 and self.x2 == 115 and self.y2 == 72 and (self.data['action'] == 1):
+                    reward = 3
+                elif distance <= 12 and self.x2 == 115 and self.y2 == 72 and (self.data['action'] != 1):
+                    reward = -3 
+
+
+
+
+
+
+
+
+                #Top layer
+                if distance <= 12 and self.x2 == 15 and self.y2 == 88 and (self.data['action'] == 1 or self.data['action'] == 2):
+                    reward = 3
+                elif distance <= 12 and self.x2 == 15 and self.y2 == 88 and (self.data['action'] != 1 or self.data['action'] != 2):
+                    reward = -3
+
+                if distance <= 12 and self.x2 == 135 and self.y2 == 88 and (self.data['action'] == 0 or self.data['action'] == 2 ) :
+                    reward = 3 
+                elif distance <= 12 and self.x2 == 135 and self.y2 == 88 and (data['action'] != 2 or self.data['action'] != 0 ):    
+                    reward = -3   
+
+                if distance <= 12 and self.x2 == 75 and self.y2 == 88 and (self.data['action'] == 1 or self.data['action'] == 0 ):
+                    reward = 3 
+
+
+                elif distance <= 12 and self.x2 == 75 and self.y2 == 88 and (self.data['action'] != 1 or self.data['action'] != 0 ):    
+                    reward = -3   
+
+
+                if distance <= 12 and self.x2 == 45 and self.y2 == 88 and (self.data['action'] == 1 or self.data['action'] == 0 ):
+                    reward = 3 
+                elif distance <= 12 and self.x2 == 45 and self.y2 == 88 and (self.data['action'] != 1 or self.data['action'] != 0 ):    
+                    reward = -3  
+
+                #Middle Layer
+                if distance <= 12 and self.x2 == 15 and self.y2 == 115 and (self.data['action'] == 1 or self.data['action'] == 2 ) :
+                    reward = 3 
+                elif distance <= 12 and self.x2 == 15 and self.y2 == 115 and (self.data['action'] != 1 or self.data['action'] != 2):    
+                    reward = -3   
+
+                if distance <= 12 and self.x2 == 135 and self.y2 ==115 and (self.data['action'] == 0 or self.data['action'] == 2 ):
+                    reward = 3 
+                elif distance <= 12 and self.x2 == 135 and self.y2 == 115 and (self.data['action'] != 0 or self.data['action'] != 2 ):    
+                    reward = -3 
+
+                #Bottom Layer
+                if distance <= 12 and self.x2 == 15 and self.y2 == 135 and (self.data['action'] == 1 or self.data['action'] == 3):
+                    reward = 3
+                elif distance <= 12 and self.x2 == 15 and self.y2 == 135 and (self.data['action'] != 1 or self.data['action'] != 3):
+                    reward = -3
+
+                if distance <= 12 and self.x2 == 135 and self.y2 == 135 and (self.data['action'] == 0 or self.data['action'] == 3) :
+                    reward = 3 
+
+                elif distance <= 12 and self.x2 == 135 and self.y2 == 135 and (self.data['action'] != 3 or self.data['action'] != 0 ):    
+                    reward = -3   
+
+                
+                
+                
+
+                # Agent decided dash R and dash L 
+                
+                if distance <= 12 and self.x2 == 75 and self.y2 == 135 and (self.data['action'] == 1 or self.data['action'] == 0 ):
+                    reward = 3 
+                elif distance <= 12 and self.x2 == 75 and self.y2 == 135 and (self.data['action'] != 1 or self.data['action'] != 0 ):    
+                    reward = -3   
+
+
+                if distance <= 12 and self.x2 == 45 and self.y2 == 135 and (self.data['action'] == 1 or self.data['action'] == 0 ):
+                    reward = 3 
+                elif distance <= 12 and self.x2 == 45 and self.y2 == 135 and (self.data['action'] != 1 or self.data['action'] != 0 ):    
+                    reward = -3 
+ 
+
+
+
+
+
+
+
+
+                
+           
+           
+           
+           
+           
+           
+           #if self.data['action'] == 0 or self.data['action'] == 1 or self.data['action'] == 2 or self.data['action'] == 3:
+            #    reward = 2
+          # elif self.data['action'] != 0 or self.data['action'] != 1 or self.data['action'] != 2 or self.data['action'] != 3:
+           #     reward = -2
             
            
-            print('Pass')
-            self.x1 = self.data['Minimap_Charc_X_Coordinates'][0]
-            self.y1 = self.data['Minimap_Charc_Y_Coordinates'][0]
-            for center in self.data['Green Circle on Mini Map Coordinates']:
-                self.x2, self.y2 = center
-                distance = math.sqrt(( self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)
+            #print('Pass')
+            #    self.x1 = self.data['Minimap_Charc_X_Coordinates'][0]
+             #   self.y1 = self.data['Minimap_Charc_Y_Coordinates'][0]
+              #  for center in self.data['Green Circle on Mini Map Coordinates']:
+               #     self.x2, self.y2 = center
+                   # distance = math.sqrt(( self.x2 - self.x1)**2 + (self.y2 - self.y1)**2)
     
               #  Point A: (35, 80) <----
               #  Point B: (75, 80)
@@ -153,7 +269,7 @@ class MapleEnv(gym.Env):
                 
 
                 #Reward for point A
-                if distance <= 19 and self.x2 == 35 and self.y2 == 80 and (self.data['action'] == 3 or self.data['action'] == 1):
+            '''if distance <= 19 and self.x2 == 35 and self.y2 == 80 and (self.data['action'] == 3 or self.data['action'] == 1):
                     reward = 1 
                 elif distance <= 19 and self.x2 == 35 and self.y2 == 80 and (self.data['action'] != 3 or self.data['action'] != 1):
                     reward = -2

@@ -31,20 +31,9 @@ start_time = time.time()
 rewards = []
 
 
-
-
-
-
-
-
-
-
-
-
-
 epsilon = 0.01
 step_count = 0
-training_frequency = 60
+training_frequency = 10
 
 
 
@@ -59,7 +48,7 @@ Agent_Memory = ReplayMemory(max_size=9000)
 
 
 '''Construct Neural Network For DQN '''
-dqn_agent = DQN(input_shape=(4,),n_outputs=6)
+dqn_agent = DQN(input_shape=(4,),n_outputs=7)
 print("Neural Network Summary:",dqn_agent.model_summary())
 
 
@@ -88,7 +77,8 @@ while True:
     "Class 3: Memory Monk Coordinates")
     "Class 4: Memory Monk Death Coordinates")
     "Class 5: Mini Map Character Coordinates")
-    "Class 6: Green Circle on Mini Map Coordinates")'''
+    "Class 6: Penalty Area on Mini Map Coordinates")'''
+    
 
 
     screenshot, class_0, class_1, class_2, class_3, class_4, class_5, class_6 = yolov8.detection(screenshot)
@@ -100,7 +90,7 @@ while True:
     
 
     # randomly does an action
-    epsilon = max(1 - step_count / 3000, 0.01)
+    epsilon = max(1 - step_count / 10000, 0.01)
     action = play_one_step(np.array(current_state[:4]), epsilon)
 
 
@@ -123,10 +113,10 @@ while True:
 
 
     print('step_count',step_count)  
-    print('current_state:',current_state)
+    print('current_state:',current_state[:4])
     print('action', action)
     print('reward:',reward)
-    print('next_state',next_state)
+    print('next_state',next_state[:4])
     cv2.imshow('Maplestory', screenshot)
 
 
@@ -140,7 +130,7 @@ while True:
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
         print('AT TRAINING STAGE')
-        loss = dqn_agent.training_step(discount_rate=0.99, sample_experiences=Agent_Memory.sample_experiences(batch_size=50))
+        loss = dqn_agent.training_step(discount_rate=0.95, sample_experiences=Agent_Memory.sample_experiences(batch_size=10))
         
         print('loss: ', loss)
         losses.append(loss)
